@@ -1,0 +1,20 @@
+image: "quay.io/podman/testing"
+
+before_script:
+  - podman --version
+  - curl -sSf https://sh.rustup.rs | sh -s -- -y
+  - source $HOME/.cargo/env
+
+stages:
+  - Static analysis
+  - Test compile
+
+rustfmt:
+  stage: Static analysis
+  script:
+    - cargo fmt -- --check
+
+test-compile:
+  stage: Test compile
+  script:
+    - podman build --runtime crun --storage-driver vfs -t rateway:latest .
