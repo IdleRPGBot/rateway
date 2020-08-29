@@ -5,13 +5,12 @@ authors = ["Jens Reidel <adrian@travitia.xyz>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
-async-std = { version = "1.6", features = ["attributes"] }
-async-tungstenite = { version = "0.8", features = ["async-std", "async-native-tls"] }
-async-native-tls = "0.3"
+twilight-gateway = { branch = "trunk", default-features = false, features = [
+    "rustls",
+    "simd-json",
+    "simd-zlib"
+], git = "https://github.com/twilight-rs/twilight" }
+twilight-model = { branch = "trunk", git = "https://github.com/twilight-rs/twilight" }
 futures = "0.3"
-lapin = { version = "1.2", default-features = false }
-serde_json = "1"
-serde = "1"
-serde_repr = "0.1"
+tokio = { version = "0.2", features = ["macros", "rt-core"] }
