@@ -1,8 +1,15 @@
-use simd_json::to_string;
+use simd_json::{to_string, to_vec};
 use twilight_gateway::cluster::{Cluster, ShardScheme};
 use twilight_gateway::queue::{LargeBotQueue, Queue};
 use twilight_http::Client;
 use twilight_model::gateway::{event::DispatchEvent, GatewayIntents};
+
+use lapin::{
+    options::{BasicPublishOptions, ExchangeDeclareOptions},
+    types::FieldTable,
+    BasicProperties, Connection, ConnectionProperties, ExchangeKind,
+};
+use tokio_amqp::*;
 
 use log::info;
 use tokio::task::{spawn, JoinHandle};
@@ -19,14 +26,38 @@ async fn worker(
     queue: Arc<Box<dyn Queue>>,
     intents: Option<GatewayIntents>,
     scheme: ShardScheme,
-    _cluster_id: usize,
+    cluster_id: usize,
+    amqp_uri: String,
 ) -> Result<(), Box<dyn Error + Send + Sync>> {
+    // Create a Discord cluster
     let cluster = Cluster::builder(token)
         .shard_scheme(scheme)
         .intents(intents)
         .http_client(http_client)
         .queue(queue)
         .build()
+        .await?;
+
+    // Connect to AMQP
+    let amqp_conn =
+        Connection::connect(&amqp_uri, ConnectionProperties::default().with_tokio()).await?;
+    // Send channel
+    let send_channel = amqp_conn.create_channel().await?;
+    // Queue for sending
+    let exchange_name = format!("rateway-{}", cluster_id);
+    send_channel
+        .exchange_declare(
+            &exchange_name,
+            ExchangeKind::Direct,
+            ExchangeDeclareOptions {
+                passive: false,
+                durable: true,
+                auto_delete: true,
+                internal: false,
+                nowait: false, // TODO: Consider this to be true
+            },
+            FieldTable::default(),
+        )
         .await?;
 
     let mut events = cluster.events();
@@ -44,7 +75,16 @@ async fn worker(
             kind_string.remove(0);
             kind_string.remove(kind_string.len() - 1);
             // TODO: Filter unwanted events
-            let _serialized = to_string(&dispatch_evt)?;
+            let serialized = to_vec(&dispatch_evt)?;
+            send_channel
+                .basic_publish(
+                    &exchange_name,
+                    &kind_string,
+                    BasicPublishOptions::default(),
+                    serialized,
+                    BasicProperties::default(),
+                )
+                .await?;
         }
     }
 
@@ -70,6 +110,7 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
         .unwrap_or_else(|_| String::from("8"))
         .parse()
         .expect("Cannot parse extra shards");
+    let amqp_uri = std::env::var("AMQP_URI").expect("AMQP_URI not set");
 
     // Set up a HTTPClient
     let client = Client::new(token.clone());
@@ -116,11 +157,20 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
         let new_queue = queue.clone();
         let new_client = client.clone();
         let new_token = token.clone();
+        let new_amqp_uri = amqp_uri.clone();
         let scheme = ShardScheme::try_from((shard_start..=shard_end, total_shards))?;
         let handle = spawn(async move {
-            worker(&new_token, new_client, new_queue, intents, scheme, idx + 1)
-                .await
-                .unwrap();
+            worker(
+                &new_token,
+                new_client,
+                new_queue,
+                intents,
+                scheme,
+                idx + 1,
+                new_amqp_uri,
+            )
+            .await
+            .unwrap();
         });
         all_handles.push(handle);
         info!(

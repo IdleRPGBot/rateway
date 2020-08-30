@@ -15,7 +15,6 @@ RUN set -ex && \
     ln -s /usr/bin/lld /usr/bin/ld && \
     ln -s /usr/bin/clang /usr/bin/cc && \
     source $HOME/.cargo/env && \
-    env && \
     cargo build --release && \
     strip /build/target/release/rateway
 

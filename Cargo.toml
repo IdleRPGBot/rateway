@@ -16,6 +16,8 @@ twilight-http = { branch = "trunk", default-features = false, features = [
     "rustls",
     "simd-json"
 ], git = "https://github.com/twilight-rs/twilight" }
+tokio-amqp = { version = "0.1", default-features = false }
+lapin = { version = "1.2", default-features = false }
 futures = "0.3"
 tokio = { version = "0.2", features = ["macros", "rt-core", "rt-threaded"] }
 simd-json = { default-features = false, features = [
