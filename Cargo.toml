@@ -12,5 +12,15 @@ twilight-gateway = { branch = "trunk", default-features = false, features = [
     "simd-zlib"
 ], git = "https://github.com/twilight-rs/twilight" }
 twilight-model = { branch = "trunk", git = "https://github.com/twilight-rs/twilight" }
+twilight-http = { branch = "trunk", default-features = false, features = [
+    "rustls",
+    "simd-json"
+], git = "https://github.com/twilight-rs/twilight" }
 futures = "0.3"
-tokio = { version = "0.2", features = ["macros", "rt-core"] }
+tokio = { version = "0.2", features = ["macros", "rt-core", "rt-threaded"] }
+simd-json = { default-features = false, features = [
+    "serde_impl",
+    "swar-number-parsing"
+], version = "0.3" }
+env_logger = "0.7"
+log = "0.4"
