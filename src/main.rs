@@ -1,4 +1,4 @@
-use simd_json::{to_string, to_vec};
+use simd_json::to_vec;
 use twilight_gateway::cluster::{Cluster, ShardScheme};
 use twilight_gateway::queue::{LargeBotQueue, Queue};
 use twilight_http::Client;
@@ -70,7 +70,8 @@ async fn worker(
 
     while let Some((_shard_id, event)) = events.next().await {
         if let Ok(dispatch_evt) = DispatchEvent::try_from(event) {
-            let kind = dispatch_evt.kind().name();
+            // We can assume Some since this is a Dispatch event
+            let kind = dispatch_evt.kind().name().unwrap();
             // TODO: Filter unwanted events
             let serialized = to_vec(&dispatch_evt)?;
             send_channel
