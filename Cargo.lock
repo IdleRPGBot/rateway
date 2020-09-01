@@ -618,9 +618,9 @@ dependencies = [
 
 [[package]]
 name = "indexmap"
-version = "1.5.1"
+version = "1.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "86b45e59b16c76b11bf9738fd5d38879d3bd28ad292d7b313608becb17ae2df9"
+checksum = "4e47a3566dd4fd4eec714ae6ceabdee0caec795be835c223d92c2d40f1e8cf1c"
 dependencies = [
  "autocfg",
  "hashbrown 0.8.2",
@@ -724,9 +724,9 @@ checksum = "755456fae044e6fa1ebbbd1b3e902ae19e73097ed4ed87bb79934a867c007bc3"
 
 [[package]]
 name = "libz-sys"
-version = "1.1.0"
+version = "1.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "af67924b8dd885cccea261866c8ce5b74d239d272e154053ff927dae839f5ae9"
+checksum = "23b34178653005c1181711c333f0e5604a14a1b5115c814fd42304bdd16245e0"
 dependencies = [
  "cc",
  "pkg-config",
@@ -1449,9 +1449,9 @@ dependencies = [
 
 [[package]]
 name = "tokio-rustls"
-version = "0.14.0"
+version = "0.14.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "228139ddd4fea3fa345a29233009635235833e52807af7ea6448ead03890d6a9"
+checksum = "e12831b255bcfa39dc0436b01e19fea231a37db570686c06ee72c423479f889a"
 dependencies = [
  "futures-core",
  "rustls",
@@ -1539,7 +1539,7 @@ dependencies = [
 [[package]]
 name = "twilight-gateway"
 version = "0.1.0"
-source = "git+https://github.com/twilight-rs/twilight?branch=trunk#505dbc6eb681a46f771dc4d3f398d4bbb6cdca98"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#41717b626ccd17b54d6a454aae0d241966b03a6e"
 dependencies = [
  "async-tungstenite",
  "bitflags",
@@ -1561,7 +1561,7 @@ dependencies = [
 [[package]]
 name = "twilight-http"
 version = "0.1.0"
-source = "git+https://github.com/twilight-rs/twilight?branch=trunk#505dbc6eb681a46f771dc4d3f398d4bbb6cdca98"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#41717b626ccd17b54d6a454aae0d241966b03a6e"
 dependencies = [
  "bytes",
  "futures-channel",
@@ -1581,7 +1581,7 @@ dependencies = [
 [[package]]
 name = "twilight-model"
 version = "0.1.0"
-source = "git+https://github.com/twilight-rs/twilight?branch=trunk#505dbc6eb681a46f771dc4d3f398d4bbb6cdca98"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#41717b626ccd17b54d6a454aae0d241966b03a6e"
 dependencies = [
  "bitflags",
  "serde",
