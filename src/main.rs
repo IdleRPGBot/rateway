@@ -38,6 +38,8 @@ async fn worker(
         .build()
         .await?;
 
+    // Event filter will probably wait for https://github.com/twilight-rs/twilight/issues/464
+
     // Connect to AMQP
     let amqp_conn =
         Connection::connect(&amqp_uri, ConnectionProperties::default().with_tokio()).await?;
@@ -74,7 +76,6 @@ async fn worker(
             let mut kind_string = to_string(&kind)?;
             kind_string.remove(0);
             kind_string.remove(kind_string.len() - 1);
-            // TODO: Filter unwanted events
             let serialized = to_vec(&dispatch_evt)?;
             send_channel
                 .basic_publish(
