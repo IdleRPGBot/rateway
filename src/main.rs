@@ -1,4 +1,4 @@
-use simd_json::{to_string, to_vec};
+use simd_json::to_vec;
 use twilight_gateway::cluster::{Cluster, ShardScheme};
 use twilight_gateway::queue::{LargeBotQueue, Queue};
 use twilight_http::Client;
@@ -72,15 +72,13 @@ async fn worker(
 
     while let Some((_shard_id, event)) = events.next().await {
         if let Ok(dispatch_evt) = DispatchEvent::try_from(event) {
-            let kind = dispatch_evt.kind();
-            let mut kind_string = to_string(&kind)?;
-            kind_string.remove(0);
-            kind_string.remove(kind_string.len() - 1);
+            // We can assume Some since this is a Dispatch event
+            let kind = dispatch_evt.kind().name().unwrap();
             let serialized = to_vec(&dispatch_evt)?;
             send_channel
                 .basic_publish(
                     &exchange_name,
-                    &kind_string,
+                    &kind,
                     BasicPublishOptions::default(),
                     serialized,
                     BasicProperties::default(),
