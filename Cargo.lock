@@ -1539,7 +1539,7 @@ dependencies = [
 [[package]]
 name = "twilight-gateway"
 version = "0.1.0"
-source = "git+https://github.com/twilight-rs/twilight?branch=trunk#89dadc756a9a2c995a3ded869abf17653fcdd519"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#7432810ec8e1cbcbf1538a184ab9c04818d96794"
 dependencies = [
  "async-tungstenite",
  "bitflags",
@@ -1561,7 +1561,7 @@ dependencies = [
 [[package]]
 name = "twilight-http"
 version = "0.1.0"
-source = "git+https://github.com/twilight-rs/twilight?branch=trunk#89dadc756a9a2c995a3ded869abf17653fcdd519"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#7432810ec8e1cbcbf1538a184ab9c04818d96794"
 dependencies = [
  "bytes",
  "futures-channel",
@@ -1581,7 +1581,7 @@ dependencies = [
 [[package]]
 name = "twilight-model"
 version = "0.1.0"
-source = "git+https://github.com/twilight-rs/twilight?branch=trunk#89dadc756a9a2c995a3ded869abf17653fcdd519"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#7432810ec8e1cbcbf1538a184ab9c04818d96794"
 dependencies = [
  "bitflags",
  "serde",
