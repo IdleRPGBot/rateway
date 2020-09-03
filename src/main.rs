@@ -2,7 +2,7 @@ use simd_json::to_vec;
 use twilight_gateway::cluster::{Cluster, ShardScheme};
 use twilight_gateway::queue::{LargeBotQueue, Queue};
 use twilight_http::Client;
-use twilight_model::gateway::{event::DispatchEvent, GatewayIntents};
+use twilight_model::gateway::{event::DispatchEvent, Intents};
 
 use lapin::{
     options::{BasicPublishOptions, ExchangeDeclareOptions},
@@ -24,7 +24,7 @@ async fn worker(
     token: &str,
     http_client: Client,
     queue: Arc<Box<dyn Queue>>,
-    intents: Option<GatewayIntents>,
+    intents: Option<Intents>,
     scheme: ShardScheme,
     cluster_id: usize,
     amqp_uri: String,
@@ -123,7 +123,7 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
 
     let total_shards = gateway.shards + additional_shards;
 
-    let intents = Some(GatewayIntents::from_bits_truncate(intent_value));
+    let intents = Some(Intents::from_bits_truncate(intent_value));
 
     // Set up a queue for syncing the auth
     // This uses the max_concurrency from the gateway automatically
