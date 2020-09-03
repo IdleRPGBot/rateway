@@ -66,11 +66,11 @@ async fn worker(
 
     let cluster_spawn = cluster.clone();
 
-    tokio::spawn(async move {
+    spawn(async move {
         cluster_spawn.up().await;
     });
 
-    while let Some((_shard_id, event)) = events.next().await {
+    while let Some((_, event)) = events.next().await {
         if let Ok(dispatch_evt) = DispatchEvent::try_from(event) {
             // We can assume Some since this is a Dispatch event
             let kind = dispatch_evt.kind().name().unwrap();
