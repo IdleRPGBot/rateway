@@ -42,7 +42,6 @@ impl WorkerConfig<'_> {
         let amqp_conn =
             Connection::connect(&self.amqp_uri, ConnectionProperties::default().with_tokio())
                 .await?;
-        // Send channel
         let send_channel = amqp_conn.create_channel().await?;
 
         Ok(Worker {

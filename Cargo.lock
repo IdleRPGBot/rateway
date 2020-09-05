@@ -1667,9 +1667,9 @@ checksum = "05e42f7c18b8f902290b009cde6d651262f956c98bc51bca4cd1d511c9cd85c7"
 
 [[package]]
 name = "value-trait"
-version = "0.1.17"
+version = "0.1.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "801df62c1498c82cfaea4e84e7e7af9cb939021ff11e286a61e67e0db9883437"
+checksum = "76116a6dbf85bfa0e5cd6bf9debee40e853f814d376f5713cabe5516283bcc89"
 dependencies = [
  "float-cmp",
  "halfbrown",
