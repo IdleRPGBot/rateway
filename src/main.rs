@@ -1,94 +1,18 @@
-use simd_json::to_vec;
-use twilight_gateway::cluster::{Cluster, ShardScheme};
+use twilight_cache_inmemory::InMemoryCacheBuilder;
+use twilight_gateway::cluster::ShardScheme;
 use twilight_gateway::queue::{LargeBotQueue, Queue};
 use twilight_http::Client;
-use twilight_model::gateway::{event::DispatchEvent, Intents};
-
-use lapin::{
-    options::{BasicPublishOptions, ExchangeDeclareOptions},
-    types::FieldTable,
-    BasicProperties, Connection, ConnectionProperties, ExchangeKind,
-};
-use tokio_amqp::*;
+use twilight_model::gateway::Intents;
 
 use log::info;
 use tokio::task::{spawn, JoinHandle};
 
-use futures::StreamExt;
 use std::convert::{TryFrom, TryInto};
 use std::iter::Iterator;
 use std::sync::Arc;
 use std::{env, error::Error};
 
-async fn worker(
-    token: &str,
-    http_client: Client,
-    queue: Arc<Box<dyn Queue>>,
-    intents: Option<Intents>,
-    scheme: ShardScheme,
-    cluster_id: usize,
-    amqp_uri: String,
-) -> Result<(), Box<dyn Error + Send + Sync>> {
-    // Create a Discord cluster
-    let cluster = Cluster::builder(token)
-        .shard_scheme(scheme)
-        .intents(intents)
-        .http_client(http_client)
-        .queue(queue)
-        .build()
-        .await?;
-
-    // Event filter will probably wait for https://github.com/twilight-rs/twilight/issues/464
-
-    // Connect to AMQP
-    let amqp_conn =
-        Connection::connect(&amqp_uri, ConnectionProperties::default().with_tokio()).await?;
-    // Send channel
-    let send_channel = amqp_conn.create_channel().await?;
-    // Queue for sending
-    let exchange_name = format!("rateway-{}", cluster_id);
-    send_channel
-        .exchange_declare(
-            &exchange_name,
-            ExchangeKind::Direct,
-            ExchangeDeclareOptions {
-                passive: false,
-                durable: true,
-                auto_delete: true,
-                internal: false,
-                nowait: false, // TODO: Consider this to be true
-            },
-            FieldTable::default(),
-        )
-        .await?;
-
-    let mut events = cluster.events();
-
-    let cluster_spawn = cluster.clone();
-
-    spawn(async move {
-        cluster_spawn.up().await;
-    });
-
-    while let Some((_, event)) = events.next().await {
-        if let Ok(dispatch_evt) = DispatchEvent::try_from(event) {
-            // We can assume Some since this is a Dispatch event
-            let kind = dispatch_evt.kind().name().unwrap();
-            let serialized = to_vec(&dispatch_evt)?;
-            send_channel
-                .basic_publish(
-                    &exchange_name,
-                    &kind,
-                    BasicPublishOptions::default(),
-                    serialized,
-                    BasicProperties::default(),
-                )
-                .await?;
-        }
-    }
-
-    Ok(())
-}
+mod worker;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
@@ -120,6 +44,9 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
         .authed()
         .await
         .expect("Cannot fetch shard information");
+
+    // Set up a cache
+    let cache = InMemoryCacheBuilder::new().message_cache_size(0).build();
 
     let total_shards = gateway.shards + additional_shards;
 
@@ -154,24 +81,32 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
         let shard_start = shard_range[0];
         let shard_end = shard_range[shard_range.len() - 1];
         let new_queue = queue.clone();
+        let new_cache = cache.clone();
         let new_client = client.clone();
         let new_token = token.clone();
         let new_amqp_uri = amqp_uri.clone();
         let scheme = ShardScheme::try_from((shard_start..=shard_end, total_shards))?;
+
+        let worker_config = worker::WorkerConfig {
+            amqp_uri: new_amqp_uri,
+            cache: new_cache,
+            cluster_id: idx + 1,
+            http_client: new_client,
+            intents,
+            queue: new_queue,
+            scheme,
+            token: &new_token,
+        };
+
+        let worker = worker_config.build().await?;
+        worker.initialize().await?;
+
         let handle = spawn(async move {
-            worker(
-                &new_token,
-                new_client,
-                new_queue,
-                intents,
-                scheme,
-                idx + 1,
-                new_amqp_uri,
-            )
-            .await
-            .unwrap();
+            worker.run().await.unwrap();
         });
+
         all_handles.push(handle);
+
         info!(
             "Spawned cluster #{} (shards {}-{})",
             idx + 1,

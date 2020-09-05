@@ -1100,6 +1100,7 @@ dependencies = [
  "simd-json",
  "tokio",
  "tokio-amqp",
+ "twilight-cache-inmemory",
  "twilight-gateway",
  "twilight-http",
  "twilight-model",
@@ -1534,6 +1535,17 @@ dependencies = [
  "sha-1",
  "url",
  "utf-8",
+]
+
+[[package]]
+name = "twilight-cache-inmemory"
+version = "0.1.0"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#7432810ec8e1cbcbf1538a184ab9c04818d96794"
+dependencies = [
+ "bitflags",
+ "dashmap",
+ "tracing",
+ "twilight-model",
 ]
 
 [[package]]
