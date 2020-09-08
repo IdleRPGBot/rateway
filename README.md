@@ -4,6 +4,19 @@ A stateless gateway for Discord Bots, especially with Travitia in mind.
 
 Scaling well, it processes messages from the Discord gateway and puts them in AMQP exchanges.
 
+## Why yet another one?
+
+I am aware that there are projects like [spectacles](https://github.com/spec-tacles/) which try to solve this easily. rateway tries to solve a lot of the issues we had when trying to move an existing bot codebase to a seperate gateway.
+
+- rateway is highly multi-threaded (parallelism) and concurrent (asynchronous)
+- rateway is written in Rust and therefore safe, performant and well-optimized
+- rateway keeps events grouped per cluster, where each gateway cluster should equal one worker on your client side. This allows for not worrying about your REACTION_ADD events arriving on a different worker while you're paginating a help menu
+- rateway keeps a shared cache, so you don't have to. Querying it can be done via AMQP
+
+## Documentation
+
+One day.
+
 ## Configuration
 
 Configuration is entirely done in enviroment variables.
