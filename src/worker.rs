@@ -1,3 +1,4 @@
+use crate::reader::amqp_reader;
 use twilight_cache_inmemory::InMemoryCache;
 use twilight_gateway::cluster::{Cluster, ShardScheme};
 use twilight_gateway::queue::Queue;
@@ -5,7 +6,10 @@ use twilight_http::Client;
 use twilight_model::gateway::{event::DispatchEvent, Intents};
 
 use lapin::{
-    options::{BasicPublishOptions, ExchangeDeclareOptions},
+    options::{
+        BasicConsumeOptions, BasicPublishOptions, ExchangeDeclareOptions, QueueBindOptions,
+        QueueDeclareOptions,
+    },
     types::FieldTable,
     BasicProperties, Channel, Connection, ConnectionProperties, ExchangeKind,
 };
@@ -63,6 +67,7 @@ pub struct Worker {
 impl Worker {
     pub async fn initialize(&self) -> Result<(), Box<dyn Error + Send + Sync>> {
         let exchange_name = format!("rateway-{}", self.cluster_id);
+        let incoming_queue = format!("rateway-incoming-{}", self.cluster_id);
         self.amqp_channel
             .exchange_declare(
                 &exchange_name,
@@ -77,19 +82,56 @@ impl Worker {
                 FieldTable::default(),
             )
             .await?;
-
+        self.amqp_channel
+            .queue_declare(
+                &incoming_queue,
+                QueueDeclareOptions::default(),
+                FieldTable::default(),
+            )
+            .await?;
+        self.amqp_channel
+            .queue_bind(
+                &incoming_queue,
+                &exchange_name,
+                "cache",
+                QueueBindOptions::default(),
+                FieldTable::default(),
+            )
+            .await?;
+        self.amqp_channel
+            .queue_bind(
+                &incoming_queue,
+                &exchange_name,
+                "gateway",
+                QueueBindOptions::default(),
+                FieldTable::default(),
+            )
+            .await?;
         Ok(())
     }
 
     pub async fn run(&self) -> Result<(), Box<dyn Error + Send + Sync>> {
         let exchange_name = format!("rateway-{}", self.cluster_id);
+        let incoming_queue = format!("rateway-incoming-{}", self.cluster_id);
         let mut events = self.cluster.events();
 
         let cluster_spawn = self.cluster.clone();
+        let cluster_amqp = self.cluster.clone();
 
         spawn(async move {
             cluster_spawn.up().await;
         });
+
+        let consumer = self
+            .amqp_channel
+            .basic_consume(
+                &incoming_queue,
+                "read-task",
+                BasicConsumeOptions::default(),
+                FieldTable::default(),
+            )
+            .await?;
+        spawn(amqp_reader(consumer, cluster_amqp));
 
         while let Some((_, event)) = events.next().await {
             self.cache.update(&event);

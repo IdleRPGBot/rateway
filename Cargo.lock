@@ -1100,6 +1100,8 @@ dependencies = [
  "futures",
  "lapin",
  "log",
+ "serde",
+ "serde_json",
  "simd-json",
  "tokio",
  "tokio-amqp",

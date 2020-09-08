@@ -21,6 +21,8 @@ tokio-amqp = { version = "0.1", default-features = false }
 lapin = { version = "1.2", default-features = false }
 futures = "0.3"
 tokio = { version = "0.2", features = ["macros", "rt-core", "rt-threaded"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
 simd-json = { default-features = false, features = [
     "serde_impl",
     "swar-number-parsing"

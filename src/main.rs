@@ -12,6 +12,8 @@ use std::iter::Iterator;
 use std::sync::Arc;
 use std::{env, error::Error};
 
+mod model;
+mod reader;
 mod worker;
 
 #[tokio::main]
