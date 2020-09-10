@@ -1,6 +1,7 @@
 import asyncio
 import aio_pika
 
+PAYLOAD = '{"shard_id":0,"data":{"d":{"afk":false,"game":{"type":0,"name":"rawr"},"since":null,"status":"online"},"op":3}}'
 
 async def main(loop):
     connection = await aio_pika.connect_robust(
@@ -19,7 +20,7 @@ async def main(loop):
             durable=True,
         )
 
-        await exchange.publish(aio_pika.Message(b'{"shard_id": 0, "data": {"op": 3, "d": {"game": {"name": "Save the Oxford Comma", "type": 0}, "status": "online", "afk": false}}}'), "gateway")
+        await exchange.publish(aio_pika.Message(PAYLOAD.encode()), "gateway")
 
 
 if __name__ == "__main__":

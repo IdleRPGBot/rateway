@@ -12,9 +12,7 @@ pub async fn amqp_reader(
 ) -> Result<(), Box<dyn Error + Send + Sync>> {
     // TODO: Make more robust by not using ? and continue instead
     while let Some(delivery) = consumer.next().await {
-        println!("got something");
         let (channel, mut delivery) = delivery.expect("error in consumer");
-        println!("its {:?}", delivery.routing_key);
         channel
             .basic_ack(delivery.delivery_tag, BasicAckOptions::default())
             .await?;
@@ -25,11 +23,8 @@ pub async fn amqp_reader(
                 println!("{:?}", data);
             }
             "gateway" => {
-                println!("yes");
                 let data: GatewaySendData = from_slice(&mut delivery.data)?;
-                println!("send {:?} to {}", data.data, data.shard_id);
                 cluster.command(data.shard_id, &data.data).await?;
-                println!("send {:?} to {}", data.data, data.shard_id);
             }
             _ => continue,
         };
