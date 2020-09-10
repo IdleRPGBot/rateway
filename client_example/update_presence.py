@@ -3,6 +3,7 @@ import aio_pika
 
 PAYLOAD = b'{"d":{"afk":false,"game":{"type":0,"name":"rawr"},"since":null,"status":"online"},"op":3}'
 
+
 async def main(loop):
     connection = await aio_pika.connect_robust(
         "amqp://broker:secret@127.0.0.1/", loop=loop
@@ -10,7 +11,7 @@ async def main(loop):
 
     async with connection:
         # Creating channel
-        channel = await connection.channel()    # type: aio_pika.Channel
+        channel = await connection.channel()  # type: aio_pika.Channel
 
         # Declaring exchange
         exchange = await channel.declare_exchange(
@@ -20,7 +21,9 @@ async def main(loop):
             durable=True,
         )
 
-        await exchange.publish(aio_pika.Message(PAYLOAD, headers={"shard_id": 0}), "gateway")
+        await exchange.publish(
+            aio_pika.Message(PAYLOAD, headers={"shard_id": 0}), "gateway"
+        )
 
 
 if __name__ == "__main__":

@@ -117,6 +117,8 @@ impl Worker {
 
         let cluster_spawn = self.cluster.clone();
         let cluster_amqp = self.cluster.clone();
+        let cluster_cache = self.cache.clone();
+        let cluster_channel = self.amqp_channel.clone();
 
         spawn(async move {
             cluster_spawn.up().await;
@@ -131,7 +133,13 @@ impl Worker {
                 FieldTable::default(),
             )
             .await?;
-        spawn(amqp_reader(consumer, cluster_amqp));
+        spawn(amqp_reader(
+            self.cluster_id,
+            consumer,
+            cluster_channel,
+            cluster_amqp,
+            cluster_cache,
+        ));
 
         while let Some((_, event)) = events.next().await {
             self.cache.update(&event);

@@ -11,7 +11,7 @@ async def main(loop):
         queue_name = "test_queue"
 
         # Creating channel
-        channel = await connection.channel()    # type: aio_pika.Channel
+        channel = await connection.channel()  # type: aio_pika.Channel
 
         # Declaring exchange
         exchange = await channel.declare_exchange(
@@ -19,7 +19,7 @@ async def main(loop):
             type="direct",
             auto_delete=True,
             durable=True,
-        )   # type: aio_pika.Queue
+        )  # type: aio_pika.Queue
 
         # Declare queue
         queue = await channel.declare_queue(
