@@ -33,103 +33,55 @@ pub async fn amqp_reader(
                     CacheEntity::CurrentUser => Some(to_vec(&cache.current_user())?),
                     CacheEntity::GuildChannel => {
                         let channel = &cache.guild_channel(data.arguments[0].into());
-                        if let Some(result) = channel {
-                            Some(to_vec(&result)?)
-                        } else {
-                            None
-                        }
+                        channel.as_ref().map(|r| to_vec(&r).ok()).flatten()
                     }
                     CacheEntity::Emoji => {
                         let emoji = cache.emoji(data.arguments[0].into());
-                        if let Some(result) = emoji {
-                            Some(to_vec(&result)?)
-                        } else {
-                            None
-                        }
+                        emoji.as_ref().map(|r| to_vec(&r).ok()).flatten()
                     }
                     CacheEntity::Group => {
                         let group = cache.group(data.arguments[0].into());
-                        if let Some(result) = group {
-                            Some(to_vec(&result)?)
-                        } else {
-                            None
-                        }
+                        group.as_ref().map(|r| to_vec(&r).ok()).flatten()
                     }
                     CacheEntity::Guild => {
                         let guild = cache.guild(data.arguments[0].into());
-                        if let Some(result) = guild {
-                            Some(to_vec(&result)?)
-                        } else {
-                            None
-                        }
+                        guild.as_ref().map(|r| to_vec(&r).ok()).flatten()
                     }
                     CacheEntity::Member => {
                         let member =
                             cache.member(data.arguments[0].into(), data.arguments[1].into());
-                        if let Some(result) = member {
-                            Some(to_vec(&result)?)
-                        } else {
-                            None
-                        }
+                        member.as_ref().map(|r| to_vec(&r).ok()).flatten()
                     }
                     CacheEntity::Message => {
                         let message =
                             cache.message(data.arguments[0].into(), data.arguments[1].into());
-                        if let Some(result) = message {
-                            Some(to_vec(&result)?)
-                        } else {
-                            None
-                        }
+                        message.as_ref().map(|r| to_vec(&r).ok()).flatten()
                     }
                     CacheEntity::Presence => {
                         let presence =
                             cache.presence(data.arguments[0].into(), data.arguments[1].into());
-                        if let Some(result) = presence {
-                            Some(to_vec(&result)?)
-                        } else {
-                            None
-                        }
+                        presence.as_ref().map(|r| to_vec(&r).ok()).flatten()
                     }
                     CacheEntity::PrivateChannel => {
                         let channel = cache.private_channel(data.arguments[0].into());
-                        if let Some(result) = channel {
-                            Some(to_vec(&result)?)
-                        } else {
-                            None
-                        }
+                        channel.as_ref().map(|r| to_vec(&r).ok()).flatten()
                     }
                     CacheEntity::Role => {
                         let role = cache.role(data.arguments[0].into());
-                        if let Some(result) = role {
-                            Some(to_vec(&result)?)
-                        } else {
-                            None
-                        }
+                        role.as_ref().map(|r| to_vec(&r).ok()).flatten()
                     }
                     CacheEntity::User => {
                         let user = cache.user(data.arguments[0].into());
-                        if let Some(result) = user {
-                            Some(to_vec(&result)?)
-                        } else {
-                            None
-                        }
+                        user.as_ref().map(|r| to_vec(&r).ok()).flatten()
                     }
                     CacheEntity::VoiceChannelStates => {
                         let states = cache.voice_channel_states(data.arguments[0].into());
-                        if let Some(result) = states {
-                            Some(to_vec(&result)?)
-                        } else {
-                            None
-                        }
+                        states.as_ref().map(|r| to_vec(&r).ok()).flatten()
                     }
                     CacheEntity::VoiceState => {
                         let state =
                             cache.voice_state(data.arguments[0].into(), data.arguments[1].into());
-                        if let Some(result) = state {
-                            Some(to_vec(&result)?)
-                        } else {
-                            None
-                        }
+                        state.as_ref().map(|r| to_vec(&r).ok()).flatten()
                     }
                 };
                 amqp_channel
