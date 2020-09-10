@@ -17,7 +17,6 @@ async def main(loop):
         exchange = await channel.declare_exchange(
             "rateway-1",
             type="direct",
-            auto_delete=True,
             durable=True,
         )
 

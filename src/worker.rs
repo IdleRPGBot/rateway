@@ -75,9 +75,9 @@ impl Worker {
                 ExchangeDeclareOptions {
                     passive: false,
                     durable: true,
-                    auto_delete: true,
+                    auto_delete: false,
                     internal: false,
-                    nowait: false, // TODO: Consider this to be true
+                    nowait: false,
                 },
                 FieldTable::default(),
             )
