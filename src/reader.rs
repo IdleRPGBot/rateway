@@ -1,5 +1,5 @@
-use crate::model::{CacheRequest, GatewaySendData};
-use lapin::{options::BasicAckOptions, Consumer};
+use crate::model::CacheRequest;
+use lapin::{options::BasicAckOptions, types::AMQPValue, Consumer};
 use simd_json::from_slice;
 use tokio::stream::StreamExt;
 use twilight_gateway::Cluster;
@@ -23,8 +23,23 @@ pub async fn amqp_reader(
                 println!("{:?}", data);
             }
             "gateway" => {
-                let data: GatewaySendData = from_slice(&mut delivery.data)?;
-                cluster.command(data.shard_id, &data.data).await?;
+                if let Some(headers) = delivery.properties.headers() {
+                    if let Some(shard_id) = headers.inner().get("shard_id") {
+                        // Sometimes Rust sucks
+                        let actual_id = match shard_id {
+                            AMQPValue::LongInt(val) => *val as u64,
+                            AMQPValue::LongLongInt(val) => *val as u64,
+                            AMQPValue::LongUInt(val) => *val as u64,
+                            AMQPValue::ShortInt(val) => *val as u64,
+                            AMQPValue::ShortShortInt(val) => *val as u64,
+                            AMQPValue::ShortShortUInt(val) => *val as u64,
+                            AMQPValue::ShortUInt(val) => *val as u64,
+                            _ => continue,
+                        };
+                        let data = String::from_utf8(delivery.data)?;
+                        cluster.raw_command(actual_id, data).await?;
+                    }
+                }
             }
             _ => continue,
         };
