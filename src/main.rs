@@ -5,40 +5,41 @@ use twilight_http::Client;
 use twilight_model::gateway::Intents;
 
 use log::info;
+use structopt::StructOpt;
 use tokio::task::{spawn, JoinHandle};
 
 use std::convert::{TryFrom, TryInto};
 use std::iter::Iterator;
+use std::path::PathBuf;
 use std::sync::Arc;
 use std::{env, error::Error};
 
+mod config;
 mod model;
 mod reader;
 mod worker;
+
+#[derive(StructOpt, Debug)]
+#[structopt(name = "rateway", about = "A stateful gateway for Discord Bots")]
+struct Opt {
+    #[structopt(short = "c", long = "config")]
+    path_to_config_file: Option<PathBuf>,
+}
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
     env::set_var("RUST_LOG", "info");
     env_logger::init();
 
-    // Read config from env
-    let token = std::env::var("DISCORD_TOKEN").expect("DISCORD_TOKEN not set");
-    let intent_value: u64 = std::env::var("INTENTS")
-        .expect("INTENTS not set")
-        .parse()
-        .expect("Cannot parse intents");
-    let shards_per_cluster: usize = std::env::var("SHARDS_PER_CLUSTER")
-        .unwrap_or_else(|_| String::from("8"))
-        .parse()
-        .expect("Cannot parse shards per cluster");
-    let additional_shards: u64 = std::env::var("EXTRA_SHARDS")
-        .unwrap_or_else(|_| String::from("8"))
-        .parse()
-        .expect("Cannot parse extra shards");
-    let amqp_uri = std::env::var("AMQP_URI").expect("AMQP_URI not set");
+    // Try to read config file from CLI, else use env
+    let opt = Opt::from_args();
+    let config = match opt.path_to_config_file {
+        Some(file) => config::load_config(file),
+        None => config::load_env(),
+    };
 
     // Set up a HTTPClient
-    let client = Client::new(token.clone());
+    let client = Client::new(config.token.clone());
 
     // Check total shards required
     let gateway = client
@@ -50,9 +51,9 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
     // Set up a cache
     let cache = InMemoryCacheBuilder::new().message_cache_size(0).build();
 
-    let total_shards = gateway.shards + additional_shards;
+    let total_shards = gateway.shards + config.shards.additional_shards;
 
-    let intents = Some(Intents::from_bits_truncate(intent_value));
+    let intents = Some(Intents::from_bits_truncate(config.intents));
 
     // Set up a queue for syncing the auth
     // This uses the max_concurrency from the gateway automatically
@@ -77,7 +78,7 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
     // Tokio will use a new thread due to rt-threaded
     for (idx, shard_range) in (0..total_shards)
         .collect::<Vec<u64>>()
-        .chunks(shards_per_cluster)
+        .chunks(config.shards.per_cluster)
         .enumerate()
     {
         let shard_start = shard_range[0];
@@ -85,8 +86,8 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
         let new_queue = queue.clone();
         let new_cache = cache.clone();
         let new_client = client.clone();
-        let new_token = token.clone();
-        let new_amqp_uri = amqp_uri.clone();
+        let new_token = config.token.clone();
+        let new_amqp_uri = config.amqp.clone();
         let scheme = ShardScheme::try_from((shard_start..=shard_end, total_shards))?;
 
         let worker_config = worker::WorkerConfig {

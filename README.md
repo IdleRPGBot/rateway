@@ -19,7 +19,9 @@ One day.
 
 ## Configuration
 
-Configuration is entirely done in enviroment variables.
+Configuration is preferably done in enviroment variables, alternatively, a config file can be passed with `-c /path/to/rateway.toml`.
+
+### Enviroment Variables
 
 `DISCORD_TOKEN` (**required**): Bot Token
 
@@ -30,6 +32,17 @@ Configuration is entirely done in enviroment variables.
 `SHARDS_PER_CLUSTER` (optional, defaults to 8): Shards per cluster
 
 `EXTRA_SHARDS` (optional, defaults to 8): Extra shards to spawn for reserve
+
+### Configuration File
+
+```toml
+token = "token"
+amqp = "amqp://guest:guest@localhost/"
+
+[shards]
+per_cluster = 8
+extra = 8
+```
 
 ## Scalability and Performance
 
