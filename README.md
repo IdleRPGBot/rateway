@@ -37,6 +37,7 @@ Configuration is preferably done in enviroment variables, alternatively, a confi
 
 ```toml
 token = "token"
+intents = 19553
 amqp = "amqp://guest:guest@localhost/"
 
 [shards]
