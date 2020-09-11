@@ -47,6 +47,6 @@ extra = 8
 
 ## Scalability and Performance
 
-rateway utilizes [simd-json](https://github.com/simd-lite/simd-json) and [cloudflare-zlib](https://gitlab.com/kornelski/cloudflare-zlib-sys) for extremely fast gateway parsing. It supports gateway intents and queues connections over the gateway and its HTTP calls properly, making it practically impossible to hit ratelimits.
+rateway utilizes [simd-json](https://github.com/simd-lite/simd-json) and [zlib-ng](https://github.com/zlib-ng/zlib-ng) for extremely fast gateway parsing. It supports gateway intents and queues connections over the gateway and its HTTP calls properly, making it practically impossible to hit ratelimits.
 
 rateway puts shards into clusters and spawns a new task for each. Tasks are accelerated in threads across all CPU cores based on their load, using the work-stealing concept. This makes it highly efficient and very scalable, across high and low core count CPUs alike.

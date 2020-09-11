@@ -1,6 +1,6 @@
 FROM docker.io/library/alpine:edge AS builder
 
-RUN apk add --no-cache curl clang gcc musl-dev lld && \
+RUN apk add --no-cache curl clang gcc musl-dev lld cmake make && \
     curl -sSf https://sh.rustup.rs | sh -s -- --profile minimal --default-toolchain nightly -y
 
 ENV CC clang
@@ -14,6 +14,8 @@ RUN set -ex && \
     rm /usr/bin/cc && \
     ln -s /usr/bin/lld /usr/bin/ld && \
     ln -s /usr/bin/clang /usr/bin/cc && \
+    ln -s /usr/lib/gcc/x86_64-alpine-linux-musl/10.2.0/crtbeginS.o /usr/lib/crtbeginS.o && \
+    ln -s /usr/lib/gcc/x86_64-alpine-linux-musl/10.2.0/crtendS.o /usr/lib/crtendS.o && \
     source $HOME/.cargo/env && \
     cargo build --release && \
     strip /build/target/release/rateway
