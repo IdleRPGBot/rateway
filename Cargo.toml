@@ -6,17 +6,17 @@ edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
-twilight-gateway = { branch = "raw-command", default-features = false, features = [
+twilight-gateway = { branch = "trunk", default-features = false, features = [
     "rustls",
     "simd-json",
     "simd-zlib"
-], git = "https://github.com/Gelbpunkt/twilight" }
-twilight-model = { branch = "raw-command", git = "https://github.com/Gelbpunkt/twilight" }
-twilight-http = { branch = "raw-command", default-features = false, features = [
+], git = "https://github.com/twilight-rs/twilight" }
+twilight-model = { branch = "trunk", git = "https://github.com/twilight-rs/twilight" }
+twilight-http = { branch = "trunk", default-features = false, features = [
     "rustls",
     "simd-json"
-], git = "https://github.com/Gelbpunkt/twilight" }
-twilight-cache-inmemory = { branch = "raw-command", git = "https://github.com/Gelbpunkt/twilight" }
+], git = "https://github.com/twilight-rs/twilight" }
+twilight-cache-inmemory = { branch = "trunk", git = "https://github.com/twilight-rs/twilight" }
 tokio-amqp = { version = "0.1", default-features = false }
 lapin = { version = "1.2", default-features = false }
 futures = "0.3"

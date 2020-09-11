@@ -1651,7 +1651,7 @@ dependencies = [
 [[package]]
 name = "twilight-cache-inmemory"
 version = "0.1.0"
-source = "git+https://github.com/Gelbpunkt/twilight?branch=raw-command#09245c26d2a95171be3bb99fec3bfeb464651025"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#23d8dcec249a6abc4128558fd062774c2dd56214"
 dependencies = [
  "bitflags",
  "dashmap",
@@ -1663,7 +1663,7 @@ dependencies = [
 [[package]]
 name = "twilight-gateway"
 version = "0.1.0"
-source = "git+https://github.com/Gelbpunkt/twilight?branch=raw-command#09245c26d2a95171be3bb99fec3bfeb464651025"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#23d8dcec249a6abc4128558fd062774c2dd56214"
 dependencies = [
  "async-tungstenite",
  "bitflags",
@@ -1685,7 +1685,7 @@ dependencies = [
 [[package]]
 name = "twilight-http"
 version = "0.1.0"
-source = "git+https://github.com/Gelbpunkt/twilight?branch=raw-command#09245c26d2a95171be3bb99fec3bfeb464651025"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#23d8dcec249a6abc4128558fd062774c2dd56214"
 dependencies = [
  "bytes",
  "futures-channel",
@@ -1705,7 +1705,7 @@ dependencies = [
 [[package]]
 name = "twilight-model"
 version = "0.1.0"
-source = "git+https://github.com/Gelbpunkt/twilight?branch=raw-command#09245c26d2a95171be3bb99fec3bfeb464651025"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#23d8dcec249a6abc4128558fd062774c2dd56214"
 dependencies = [
  "bitflags",
  "serde",
