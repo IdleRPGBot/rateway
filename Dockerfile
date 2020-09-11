@@ -4,7 +4,7 @@ RUN apk add --no-cache curl clang gcc musl-dev lld cmake make && \
     curl -sSf https://sh.rustup.rs | sh -s -- --profile minimal --default-toolchain nightly -y
 
 ENV CC clang
-ENV CFLAGS "-I/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.0/"
+ENV CFLAGS "-I/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.0/ -L/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.0/"
 
 WORKDIR /build
 COPY . .
