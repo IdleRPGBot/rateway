@@ -108,8 +108,7 @@ pub async fn amqp_reader(
                             AMQPValue::ShortUInt(val) => *val as u64,
                             _ => continue,
                         };
-                        let data = String::from_utf8(delivery.data)?;
-                        cluster.raw_command(actual_id, data).await?;
+                        cluster.command_raw(actual_id, delivery.data).await?;
                     }
                 }
             }
