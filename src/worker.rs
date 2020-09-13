@@ -27,7 +27,7 @@ pub struct WorkerConfig<'a> {
     pub http_client: Client,
     pub queue: Arc<Box<dyn Queue>>,
     pub cache: InMemoryCache,
-    pub intents: Option<Intents>,
+    pub intents: Intents,
     pub scheme: ShardScheme,
     pub cluster_id: usize,
     pub amqp_uri: String,

@@ -53,7 +53,7 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
 
     let total_shards = gateway.shards + config.shards.additional_shards;
 
-    let intents = Some(Intents::from_bits_truncate(config.intents));
+    let intents = Intents::from_bits_truncate(config.intents);
 
     // Set up a queue for syncing the auth
     // This uses the max_concurrency from the gateway automatically
