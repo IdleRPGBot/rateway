@@ -9,6 +9,7 @@ edition = "2018"
 twilight-gateway = { branch = "trunk", default-features = false, features = [
     "rustls",
     "simd-json",
+    "simd-zlib",
 ], git = "https://github.com/twilight-rs/twilight" }
 twilight-model = { branch = "trunk", git = "https://github.com/twilight-rs/twilight" }
 twilight-http = { branch = "trunk", default-features = false, features = [
