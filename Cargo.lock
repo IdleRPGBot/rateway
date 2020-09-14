@@ -818,11 +818,12 @@ dependencies = [
 
 [[package]]
 name = "miniz_oxide"
-version = "0.4.1"
+version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4d7559a8a40d0f97e1edea3220f698f78b1c5ab67532e49f68fde3910323b722"
+checksum = "c60c0dfe32c10b43a144bad8fc83538c52f58302c92300ea7ec7bf7b38d5a7b9"
 dependencies = [
  "adler",
+ "autocfg",
 ]
 
 [[package]]
@@ -1368,9 +1369,9 @@ dependencies = [
 
 [[package]]
 name = "simd-json"
-version = "0.3.18"
+version = "0.3.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aa7bd58cc9323a0db16713ada63e7ab8c51b4d1fa0b2bce1afd964e19b6f0c56"
+checksum = "7084403c2d566bfcbc3ad3a33b4bf8a255c936050a382b921749e015ee8066c3"
 dependencies = [
  "halfbrown",
  "serde",
@@ -1652,7 +1653,7 @@ dependencies = [
 [[package]]
 name = "twilight-cache-inmemory"
 version = "0.1.0"
-source = "git+https://github.com/twilight-rs/twilight?branch=trunk#8d241283ef8f4e33dc5dd40515458997a17846e8"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#859677d51d45fc8e531a4d50345c02213094789c"
 dependencies = [
  "bitflags",
  "dashmap",
@@ -1664,7 +1665,7 @@ dependencies = [
 [[package]]
 name = "twilight-gateway"
 version = "0.1.0"
-source = "git+https://github.com/twilight-rs/twilight?branch=trunk#8d241283ef8f4e33dc5dd40515458997a17846e8"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#859677d51d45fc8e531a4d50345c02213094789c"
 dependencies = [
  "async-tungstenite",
  "bitflags",
@@ -1686,7 +1687,7 @@ dependencies = [
 [[package]]
 name = "twilight-http"
 version = "0.1.0"
-source = "git+https://github.com/twilight-rs/twilight?branch=trunk#8d241283ef8f4e33dc5dd40515458997a17846e8"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#859677d51d45fc8e531a4d50345c02213094789c"
 dependencies = [
  "bytes",
  "futures-channel",
@@ -1706,7 +1707,7 @@ dependencies = [
 [[package]]
 name = "twilight-model"
 version = "0.1.0"
-source = "git+https://github.com/twilight-rs/twilight?branch=trunk#8d241283ef8f4e33dc5dd40515458997a17846e8"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#859677d51d45fc8e531a4d50345c02213094789c"
 dependencies = [
  "bitflags",
  "serde",
