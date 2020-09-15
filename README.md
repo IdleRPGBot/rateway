@@ -13,6 +13,10 @@ I am aware that there are projects like [spectacles](https://github.com/spec-tac
 - rateway keeps events grouped per cluster, where each gateway cluster should equal one worker on your client side. This allows for not worrying about your REACTION_ADD events arriving on a different worker while you're paginating a help menu
 - rateway keeps a shared cache, so you don't have to. Querying it can be done via AMQP
 
+## Docker Image
+
+Can be found [here](https://hub.docker.com/r/gelbpunkt/rateway).
+
 ## Documentation
 
 One day.
