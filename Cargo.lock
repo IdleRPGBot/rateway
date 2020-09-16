@@ -176,9 +176,9 @@ checksum = "0e4cec68f03f32e44924783795810fa50a7035d8c8ebe78580ad7e6c703fba38"
 
 [[package]]
 name = "cc"
-version = "1.0.59"
+version = "1.0.60"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "66120af515773fb005778dc07c261bd201ec8ce50bd6e7144c927753fe013381"
+checksum = "ef611cc68ff783f18535d77ddd080185275713d852c4f5cbb6122c462a7a825c"
 
 [[package]]
 name = "cfg-if"
@@ -1653,7 +1653,7 @@ dependencies = [
 [[package]]
 name = "twilight-cache-inmemory"
 version = "0.1.0"
-source = "git+https://github.com/twilight-rs/twilight?branch=trunk#a41550a03782b2b60bbab4150867a51ff9809e59"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#5078f594c9f29d41ae0e6aa1ab9d15df29d49d2a"
 dependencies = [
  "bitflags",
  "dashmap",
@@ -1665,7 +1665,7 @@ dependencies = [
 [[package]]
 name = "twilight-gateway"
 version = "0.1.0"
-source = "git+https://github.com/twilight-rs/twilight?branch=trunk#a41550a03782b2b60bbab4150867a51ff9809e59"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#5078f594c9f29d41ae0e6aa1ab9d15df29d49d2a"
 dependencies = [
  "async-tungstenite",
  "bitflags",
@@ -1686,8 +1686,8 @@ dependencies = [
 
 [[package]]
 name = "twilight-http"
-version = "0.1.0"
-source = "git+https://github.com/twilight-rs/twilight?branch=trunk#a41550a03782b2b60bbab4150867a51ff9809e59"
+version = "0.1.1"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#5078f594c9f29d41ae0e6aa1ab9d15df29d49d2a"
 dependencies = [
  "bytes",
  "futures-channel",
@@ -1706,8 +1706,8 @@ dependencies = [
 
 [[package]]
 name = "twilight-model"
-version = "0.1.0"
-source = "git+https://github.com/twilight-rs/twilight?branch=trunk#a41550a03782b2b60bbab4150867a51ff9809e59"
+version = "0.1.1"
+source = "git+https://github.com/twilight-rs/twilight?branch=trunk#5078f594c9f29d41ae0e6aa1ab9d15df29d49d2a"
 dependencies = [
  "bitflags",
  "serde",
