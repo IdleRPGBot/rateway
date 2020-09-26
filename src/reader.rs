@@ -5,10 +5,15 @@ use lapin::{
     BasicProperties, Channel, Consumer, Error,
 };
 use log::error;
+use serde::Serialize;
 use simd_json::{from_slice, to_vec};
 use tokio::stream::StreamExt;
 use twilight_cache_inmemory::InMemoryCache;
 use twilight_gateway::Cluster;
+
+fn serialize_item<T: Serialize>(item: T) -> Option<Vec<u8>> {
+    to_vec(&item).ok()
+}
 
 pub async fn amqp_reader(
     cluster_id: usize,
@@ -34,59 +39,43 @@ pub async fn amqp_reader(
                 };
                 // Rust can be annoying
                 let send_data = match data.r#type {
-                    CacheEntity::CurrentUser => to_vec(&cache.current_user()).ok(),
-                    CacheEntity::GuildChannel => {
-                        let channel = &cache.guild_channel(data.arguments[0].into());
-                        channel.as_ref().map(|r| to_vec(&r).ok()).flatten()
-                    }
-                    CacheEntity::Emoji => {
-                        let emoji = cache.emoji(data.arguments[0].into());
-                        emoji.as_ref().map(|r| to_vec(&r).ok()).flatten()
-                    }
-                    CacheEntity::Group => {
-                        let group = cache.group(data.arguments[0].into());
-                        group.as_ref().map(|r| to_vec(&r).ok()).flatten()
-                    }
-                    CacheEntity::Guild => {
-                        let guild = cache.guild(data.arguments[0].into());
-                        guild.as_ref().map(|r| to_vec(&r).ok()).flatten()
-                    }
-                    CacheEntity::Member => {
-                        let member =
-                            cache.member(data.arguments[0].into(), data.arguments[1].into());
-                        member.as_ref().map(|r| to_vec(&r).ok()).flatten()
-                    }
-                    CacheEntity::Message => {
-                        let message =
-                            cache.message(data.arguments[0].into(), data.arguments[1].into());
-                        message.as_ref().map(|r| to_vec(&r).ok()).flatten()
-                    }
-                    CacheEntity::Presence => {
-                        let presence =
-                            cache.presence(data.arguments[0].into(), data.arguments[1].into());
-                        presence.as_ref().map(|r| to_vec(&r).ok()).flatten()
-                    }
-                    CacheEntity::PrivateChannel => {
-                        let channel = cache.private_channel(data.arguments[0].into());
-                        channel.as_ref().map(|r| to_vec(&r).ok()).flatten()
-                    }
-                    CacheEntity::Role => {
-                        let role = cache.role(data.arguments[0].into());
-                        role.as_ref().map(|r| to_vec(&r).ok()).flatten()
-                    }
-                    CacheEntity::User => {
-                        let user = cache.user(data.arguments[0].into());
-                        user.as_ref().map(|r| to_vec(&r).ok()).flatten()
-                    }
-                    CacheEntity::VoiceChannelStates => {
-                        let states = cache.voice_channel_states(data.arguments[0].into());
-                        states.as_ref().map(|r| to_vec(&r).ok()).flatten()
-                    }
-                    CacheEntity::VoiceState => {
-                        let state =
-                            cache.voice_state(data.arguments[0].into(), data.arguments[1].into());
-                        state.as_ref().map(|r| to_vec(&r).ok()).flatten()
-                    }
+                    CacheEntity::CurrentUser => cache.current_user().and_then(serialize_item),
+                    CacheEntity::GuildChannel => cache
+                        .guild_channel(data.arguments[0].into())
+                        .and_then(serialize_item),
+                    CacheEntity::Emoji => cache
+                        .emoji(data.arguments[0].into())
+                        .and_then(serialize_item),
+                    CacheEntity::Group => cache
+                        .group(data.arguments[0].into())
+                        .and_then(serialize_item),
+                    CacheEntity::Guild => cache
+                        .guild(data.arguments[0].into())
+                        .and_then(serialize_item),
+                    CacheEntity::Member => cache
+                        .member(data.arguments[0].into(), data.arguments[1].into())
+                        .and_then(serialize_item),
+                    CacheEntity::Message => cache
+                        .message(data.arguments[0].into(), data.arguments[1].into())
+                        .and_then(serialize_item),
+                    CacheEntity::Presence => cache
+                        .presence(data.arguments[0].into(), data.arguments[1].into())
+                        .and_then(serialize_item),
+                    CacheEntity::PrivateChannel => cache
+                        .private_channel(data.arguments[0].into())
+                        .and_then(serialize_item),
+                    CacheEntity::Role => cache
+                        .role(data.arguments[0].into())
+                        .and_then(serialize_item),
+                    CacheEntity::User => cache
+                        .user(data.arguments[0].into())
+                        .and_then(serialize_item),
+                    CacheEntity::VoiceChannelStates => cache
+                        .voice_channel_states(data.arguments[0].into())
+                        .and_then(serialize_item),
+                    CacheEntity::VoiceState => cache
+                        .voice_state(data.arguments[0].into(), data.arguments[1].into())
+                        .and_then(serialize_item),
                 };
                 amqp_channel
                     .basic_publish(
