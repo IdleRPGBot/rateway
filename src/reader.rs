@@ -2,14 +2,13 @@ use crate::model::{CacheEntity, CacheRequest};
 use lapin::{
     options::{BasicAckOptions, BasicPublishOptions},
     types::AMQPValue,
-    BasicProperties, Channel, Consumer,
+    BasicProperties, Channel, Consumer, Error,
 };
+use log::error;
 use simd_json::{from_slice, to_vec};
 use tokio::stream::StreamExt;
 use twilight_cache_inmemory::InMemoryCache;
 use twilight_gateway::Cluster;
-
-use std::error::Error;
 
 pub async fn amqp_reader(
     cluster_id: usize,
@@ -17,9 +16,8 @@ pub async fn amqp_reader(
     amqp_channel: Channel,
     cluster: Cluster,
     cache: InMemoryCache,
-) -> Result<(), Box<dyn Error + Send + Sync>> {
+) -> Result<(), Error> {
     let exchange_name = format!("rateway-{}", cluster_id);
-    // TODO: Make more robust by not using ? and continue instead
     while let Some(delivery) = consumer.next().await {
         let (channel, mut delivery) = delivery.expect("error in consumer");
         channel
@@ -27,10 +25,16 @@ pub async fn amqp_reader(
             .await?;
         match delivery.routing_key.as_str() {
             "cache" => {
-                let data: CacheRequest = from_slice(&mut delivery.data)?;
+                let data = match from_slice::<CacheRequest>(&mut delivery.data) {
+                    Ok(d) => d,
+                    Err(e) => {
+                        error!("Error deserializing cache request: {}", e);
+                        continue;
+                    }
+                };
                 // Rust can be annoying
                 let send_data = match data.r#type {
-                    CacheEntity::CurrentUser => Some(to_vec(&cache.current_user())?),
+                    CacheEntity::CurrentUser => to_vec(&cache.current_user()).ok(),
                     CacheEntity::GuildChannel => {
                         let channel = &cache.guild_channel(data.arguments[0].into());
                         channel.as_ref().map(|r| to_vec(&r).ok()).flatten()
@@ -108,7 +112,9 @@ pub async fn amqp_reader(
                             AMQPValue::ShortUInt(val) => *val as u64,
                             _ => continue,
                         };
-                        cluster.command_raw(actual_id, delivery.data).await?;
+                        if let Err(e) = cluster.command_raw(actual_id, delivery.data).await {
+                            error!("Error sending gateway command: {}", e);
+                        };
                     }
                 }
             }
