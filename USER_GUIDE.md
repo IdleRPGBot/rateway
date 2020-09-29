@@ -14,7 +14,7 @@ Each worker then should connect to the AMQP exchange created by rateway called r
 
 Normal gateway events that you subscribed to with intents from rateway will be sent with a routing key of _DISCORD_EVENT_NAME_, please refer [to Discord's docs](https://discord.com/developers/docs/topics/gateway#commands-and-events-gateway-events) for the specifics. The content of the message will be the according payload JSON.
 
-To implement readingn a consumer, you could do:
+To implement reading a consumer, you could do:
 
 - Connect to AMQP
 - Declare the rateway-_i_ exchange
@@ -24,7 +24,7 @@ To implement readingn a consumer, you could do:
 
 ## Sending gateway commands
 
-To send commands to the gateway, you can send a message to the rateway-_i_ exchange. The routing key **must** be `gateway` and it expects a header in the message called `shard_id` that equals the shard to send a command to. The message body should be JSON and will be forwarded to Discord, refer [to their Documentation for the JSON format](https://discord.com/developers/docs/topics/gateway#commands-and-events-gateway-commands).
+To send commands to the gateway, you can send a message to the rateway-_i_ exchange. The routing key **must** be `gateway` and it expects a header in the message called `shard_id` (an integer) that equals the shard to send a command to. The message body should be JSON and will be forwarded to Discord, refer [to their Documentation for the JSON format](https://discord.com/developers/docs/topics/gateway#commands-and-events-gateway-commands).
 
 ## Querying the cache
 
@@ -45,7 +45,7 @@ The arguments should be an array of IDs with 1 or 2 members, the order and amoun
 
 All supported entities are:
 
-- CurrentUser (No arguments)
+- CurrentUser (No arguments, empty array)
 - GuildChannel (ChannelID)
 - Emoji (EmojiID)
 - Group (GroupID)
