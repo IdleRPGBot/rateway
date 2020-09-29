@@ -6,17 +6,29 @@ RUN apk add --no-cache curl clang gcc musl-dev lld cmake make && \
 ENV CC clang
 ENV CFLAGS "-I/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.0/ -L/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.0/"
 
-WORKDIR /build
-COPY . .
-
-RUN set -ex && \
-    rm /usr/bin/ld && \
+RUN rm /usr/bin/ld && \
     rm /usr/bin/cc && \
     ln -s /usr/bin/lld /usr/bin/ld && \
     ln -s /usr/bin/clang /usr/bin/cc && \
     ln -s /usr/lib/gcc/x86_64-alpine-linux-musl/10.2.0/crtbeginS.o /usr/lib/crtbeginS.o && \
-    ln -s /usr/lib/gcc/x86_64-alpine-linux-musl/10.2.0/crtendS.o /usr/lib/crtendS.o && \
-    source $HOME/.cargo/env && \
+    ln -s /usr/lib/gcc/x86_64-alpine-linux-musl/10.2.0/crtendS.o /usr/lib/crtendS.o
+
+WORKDIR /build
+
+COPY ./Cargo.lock ./Cargo.lock
+COPY ./Cargo.toml ./Cargo.toml
+COPY ./.cargo ./.cargo
+
+RUN mkdir src/
+RUN echo 'fn main() {}' > ./src/main.rs
+RUN source $HOME/.cargo/env && \
+    cargo build --release
+
+RUN rm -f target/release/deps/rateway*
+
+COPY ./src ./src
+
+RUN source $HOME/.cargo/env && \
     cargo build --release && \
     strip /build/target/release/rateway
 
