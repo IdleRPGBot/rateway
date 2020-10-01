@@ -19,7 +19,7 @@ Can be found [here](https://hub.docker.com/r/gelbpunkt/rateway).
 
 ## Documentation
 
-One day.
+Please check [the user guide](USER_GUIDE.md) on specifics how to implement a client for rateway.
 
 ## Configuration
 
