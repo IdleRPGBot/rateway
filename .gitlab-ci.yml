@@ -1,4 +1,4 @@
-image: "quay.io/podman/testing"
+image: "quay.io/podman/stable"
 
 before_script:
   - podman --version

@@ -730,7 +730,7 @@ dependencies = [
  "crossbeam-channel",
  "futures-core",
  "log",
- "mio 0.7.1",
+ "mio 0.7.2",
  "parking_lot",
  "pinky-swear",
 ]
@@ -856,9 +856,9 @@ dependencies = [
 
 [[package]]
 name = "mio"
-version = "0.7.1"
+version = "0.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d1bb17be6a300845baad6dc2062a31de575e9148696df52f040aea6398627350"
+checksum = "6d5fc35678fa91ff960494e4bd72a0e1f8e72e035460887a2005de51915993cd"
 dependencies = [
  "libc",
  "log",
@@ -1471,7 +1471,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2d147f992a9942eb288eb52f58ba1868eee976d4983f2013867fde3736c52d0c"
 dependencies = [
  "cfg-if",
- "mio 0.7.1",
+ "mio 0.7.2",
 ]
 
 [[package]]
