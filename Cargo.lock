@@ -721,9 +721,9 @@ dependencies = [
 
 [[package]]
 name = "lapin"
-version = "1.2.8"
+version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0047ccf3b150ff99158931f7e38d476c1e0251178cee776b096e6b0697d888b0"
+checksum = "e044d3d36b71f5f76cc3b73b5485e166f3f13355f73f46bf619d6f7794b2acc0"
 dependencies = [
  "amq-protocol",
  "async-task",
@@ -756,9 +756,9 @@ dependencies = [
 
 [[package]]
 name = "libc"
-version = "0.2.78"
+version = "0.2.79"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aa7087f49d294270db4e1928fc110c976cd4b9e5a16348e0a1df09afa99e6c98"
+checksum = "2448f6066e80e3bfc792e9c98bf705b4b0fc6e8ef5b43e5889aff0eaa9c58743"
 
 [[package]]
 name = "libz-sys"
@@ -1005,18 +1005,18 @@ checksum = "d4fd5641d01c8f18a23da7b6fe29298ff4b55afcccdf78973b24cf3175fee32e"
 
 [[package]]
 name = "pin-project"
-version = "0.4.25"
+version = "0.4.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2b9e280448854bd91559252582173b3bd1f8e094a0e644791c0628ca9b1f144f"
+checksum = "13fbdfd6bdee3dc9be46452f86af4a4072975899cf8592466668620bebfbcc17"
 dependencies = [
  "pin-project-internal",
 ]
 
 [[package]]
 name = "pin-project-internal"
-version = "0.4.25"
+version = "0.4.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c8c8b352676bc6a4c3d71970560b913cea444a7a921cc2e2d920225e4b91edaa"
+checksum = "c82fb1329f632c3552cf352d14427d57a511b1cf41db93b3a7d77906a82dcc8e"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1377,9 +1377,9 @@ dependencies = [
 
 [[package]]
 name = "simd-json"
-version = "0.3.20"
+version = "0.3.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7084403c2d566bfcbc3ad3a33b4bf8a255c936050a382b921749e015ee8066c3"
+checksum = "0b86b00ac02e31a16d790de22dfed01b0255360a4a394f0481633fa2394ac21c"
 dependencies = [
  "halfbrown",
  "serde",
@@ -1650,9 +1650,9 @@ dependencies = [
 
 [[package]]
 name = "twilight-cache-inmemory"
-version = "0.1.0"
+version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a2ebb6bb749b7c23b46c473b8d7e6dc11ac005de1ee798c4aee42392d918aa07"
+checksum = "4168c5518a7a3a80e5419ffe03548952494efd5af05f63d9d3effb44a09882f9"
 dependencies = [
  "bitflags",
  "dashmap",
@@ -1686,9 +1686,9 @@ dependencies = [
 
 [[package]]
 name = "twilight-http"
-version = "0.1.5"
+version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6c5abb34b1cb70cc9e16a8d4d147aad03c94bb8b6487f4c351ad485eaf233a9f"
+checksum = "cd4e36b334381446e9236fc29628131bf1ba4979aca8cdf972dbd1407a4046d8"
 dependencies = [
  "bytes",
  "futures-channel",
