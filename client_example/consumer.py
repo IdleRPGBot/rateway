@@ -37,7 +37,8 @@ async def main():
             auto_delete=False,
         )
         # Put all events with the events we want to get in the queue from the exchange
-        await queue.bind(exchange, *LIST_OF_EVENTS_WE_WANT_TO_GET)
+        for event in LIST_OF_EVENTS_WE_WANT_TO_GET:
+            await queue.bind(exchange, event)
 
         # Iterate over all incoming messages in the queue
         # that means all events

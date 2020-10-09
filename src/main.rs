@@ -51,7 +51,7 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
     // Set up a cache
     let cache = InMemoryCacheBuilder::new().message_cache_size(0).build();
 
-    let total_shards = gateway.shards + config.shards.additional_shards;
+    let total_shards = gateway.shards + config.shards.extra;
 
     let intents = Intents::from_bits_truncate(config.intents);
 

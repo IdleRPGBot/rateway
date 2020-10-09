@@ -13,7 +13,7 @@ pub struct Config {
 #[derive(Debug, Deserialize)]
 pub struct ConfigShards {
     pub per_cluster: usize,
-    pub additional_shards: u64,
+    pub extra: u64,
 }
 
 pub fn load_config(p: PathBuf) -> Config {
@@ -32,7 +32,7 @@ pub fn load_env() -> Config {
         .unwrap_or_else(|_| String::from("8"))
         .parse()
         .expect("Cannot parse shards per cluster");
-    let additional_shards: u64 = std::env::var("EXTRA_SHARDS")
+    let extra: u64 = std::env::var("EXTRA_SHARDS")
         .unwrap_or_else(|_| String::from("8"))
         .parse()
         .expect("Cannot parse extra shards");
@@ -42,8 +42,8 @@ pub fn load_env() -> Config {
         amqp,
         intents,
         shards: ConfigShards {
-            additional_shards,
             per_cluster,
+            extra,
         },
     }
 }
