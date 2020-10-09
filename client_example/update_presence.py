@@ -37,8 +37,7 @@ async def main():
         # to relay this payload to Discord
         # via the shard 0
         await exchange.publish(
-            aio_pika.Message(PAYLOAD),
-            headers={"shard_id": 0},
+            aio_pika.Message(PAYLOAD, headers={"shard_id": 0}),
             routing_key="gateway",
         )
 
