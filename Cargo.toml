@@ -1,24 +1,24 @@
 [package]
 name = "rateway"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Jens Reidel <adrian@travitia.xyz>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
-twilight-gateway = { version = "0.1", default-features = false, features = [
+twilight-gateway = { git = "https://github.com/vivian/twilight", branch = "upgrade-to-api-v8", default-features = false, features = [
     "rustls",
     "simd-json",
     "simd-zlib",
 ] }
-twilight-model = "0.1"
-twilight-http = { version = "0.1", default-features = false, features = [
+twilight-model = { git = "https://github.com/vivian/twilight", branch = "upgrade-to-api-v8" }
+twilight-http = { git = "https://github.com/vivian/twilight", branch = "upgrade-to-api-v8", default-features = false, features = [
     "rustls",
     "simd-json"
 ] }
-twilight-cache-inmemory = "0.1"
+twilight-cache-inmemory = { git = "https://github.com/vivian/twilight", branch = "upgrade-to-api-v8" }
 tokio-amqp = { version = "0.1", default-features = false }
-lapin = { version = "1.2", default-features = false }
+lapin = { version = "1.4", default-features = false }
 futures = "0.3"
 tokio = { version = "0.2", features = ["macros", "rt-core", "rt-threaded"] }
 serde = { version = "1", features = ["derive", "rc"] }

@@ -1,41 +1,53 @@
+"""
+To run this example, fire up rateway and execute it.
+This will listen to the events specified and print them to stdout
+"""
 import asyncio
+
 import aio_pika
 
+# Anything you like and need
+LIST_OF_EVENTS_WE_WANT_TO_GET = ["MESSAGE_CREATE", "REACTION_ADD"]
 
-async def main(loop):
-    connection = await aio_pika.connect_robust(
-        "amqp://broker:secret@127.0.0.1/", loop=loop
-    )
 
+async def main():
+    # Connect to the AMQP server. Change this to your username and password
+    connection = await aio_pika.connect_robust("amqp://broker:secret@127.0.0.1/")
+
+    # This will close the connection when leaving the context manager
     async with connection:
-        queue_name = "test_queue"
+        # Every connection has a channel that we use to perform operations
+        channel = await connection.channel()
 
-        # Creating channel
-        channel = await connection.channel()  # type: aio_pika.Channel
-
-        # Declaring exchange
+        # Declare the rateway exchange that we will connect to
+        # This is worker 1 so we use rateway-1
+        #
+        # Ignore the parameters, those are the ones used by rateway internally
+        # Anything else would error
         exchange = await channel.declare_exchange(
             "rateway-1",
             type="direct",
-            auto_delete=True,
+            auto_delete=False,
             durable=True,
-        )  # type: aio_pika.Queue
+        )
 
-        # Declare queue
+        # Declare a queue to send all the events that we want in
         queue = await channel.declare_queue(
-            "consumer",
+            "consumer-dispatch",
             auto_delete=False,
         )
-        await queue.bind(exchange, "MESSAGE_CREATE")
+        # Put all events with the events we want to get in the queue from the exchange
+        await queue.bind(exchange, *LIST_OF_EVENTS_WE_WANT_TO_GET)
 
+        # Iterate over all incoming messages in the queue
+        # that means all events
         async with queue.iterator() as queue_iter:
-            # Cancel consuming after __aexit__
             async for message in queue_iter:
                 async with message.process():
+                    # message.routing_key is the event name, e.g. MESSAGE_CREATE
+                    # message.body is the raw JSON from Discord
                     print(message.routing_key.upper(), message.body)
 
 
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main(loop))
-    loop.close()
+    asyncio.run(main())

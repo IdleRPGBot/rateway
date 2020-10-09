@@ -35,9 +35,8 @@ pub struct WorkerConfig<'a> {
 
 impl WorkerConfig<'_> {
     pub async fn build(self) -> Result<Worker, Box<dyn Error + Send + Sync>> {
-        let cluster = Cluster::builder(self.token)
+        let cluster = Cluster::builder(self.token, self.intents)
             .shard_scheme(self.scheme)
-            .intents(self.intents)
             .http_client(self.http_client)
             .queue(self.queue)
             .build()

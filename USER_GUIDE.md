@@ -12,7 +12,7 @@ Each worker then should connect to the AMQP exchange created by rateway called r
 
 ## Receiving gateway events
 
-Normal gateway events that you subscribed to with intents from rateway will be sent with a routing key of _DISCORD_EVENT_NAME_, please refer [to Discord's docs](https://discord.com/developers/docs/topics/gateway#commands-and-events-gateway-events) for the specifics. The content of the message will be the according payload JSON.
+Normal gateway events that you subscribed to with intents from rateway will be sent with a routing key of _DISCORD_EVENT_NAME_, please refer [to Discord's docs](https://discord.com/developers/docs/topics/gateway#commands-and-events-gateway-events) for the specifics (rateway uses the **gateway v8**). The content of the message will be the according payload JSON.
 
 To implement reading a consumer, you could do:
 
