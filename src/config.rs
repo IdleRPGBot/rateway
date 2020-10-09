@@ -41,9 +41,6 @@ pub fn load_env() -> Config {
         token,
         amqp,
         intents,
-        shards: ConfigShards {
-            per_cluster,
-            extra,
-        },
+        shards: ConfigShards { per_cluster, extra },
     }
 }
