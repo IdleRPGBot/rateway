@@ -19,10 +19,14 @@ twilight-http = { version = "0.2.0-beta.0", default-features = false, features =
 twilight-cache-inmemory = "0.2.0-beta.0"
 tokio-amqp = { version = "0.1", default-features = false }
 lapin = { version = "1.4", default-features = false }
-futures = "0.3"
-tokio = { version = "0.2", features = ["macros", "rt-core", "rt-threaded"] }
+tokio = { version = "0.2", features = [
+    "macros",
+    "rt-core",
+    "rt-threaded",
+    "stream"
+] }
 serde = { version = "1", features = ["derive", "rc"] }
-structopt = "0.3"
+structopt = { version = "0.3", default-features = false }
 toml = "0.5"
 simd-json = { default-features = false, features = [
     "serde_impl",

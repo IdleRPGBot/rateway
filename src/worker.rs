@@ -14,10 +14,9 @@ use lapin::{
     BasicProperties, Channel, Connection, ConnectionProperties, ExchangeKind,
 };
 use simd_json::to_vec;
-use tokio::spawn;
+use tokio::{spawn, stream::StreamExt};
 use tokio_amqp::LapinTokioExt;
 
-use futures::StreamExt;
 use std::convert::TryFrom;
 use std::error::Error;
 use std::sync::Arc;

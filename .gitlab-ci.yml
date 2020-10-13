@@ -1,20 +1,26 @@
 image: "quay.io/podman/stable"
 
 before_script:
+  - sed -i "s:# runtime = \"runc\":runtime = \"crun\":g" /usr/share/containers/containers.conf
+  - sed -i "s:driver = \"overlay\":driver = \"vfs\":g" /etc/containers/storage.conf
   - podman --version
   - curl -sSf https://sh.rustup.rs | sh -s -- -y
   - source $HOME/.cargo/env
 
 stages:
   - Static analysis
-  - Test compile
+  - Compile
 
 rustfmt:
   stage: Static analysis
   script:
     - cargo fmt -- --check
 
-test-compile:
-  stage: Test compile
+compile:
+  stage: Compile
   script:
-    - podman build --runtime crun --storage-driver vfs -t rateway:latest .
+    - podman build --format docker -t rateway:latest .
+    - if [ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ] && [ "$DOCKERHUB_USERNAME" != "" ] && [ "$DOCKERHUB_PASSWORD" != "" ]; then
+      podman login docker.io --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD &&
+      podman push rateway:latest docker.io/$DOCKERHUB_USERNAME/rateway:latest;
+    fi
