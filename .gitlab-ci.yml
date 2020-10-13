@@ -21,6 +21,6 @@ compile:
   script:
     - podman build --format docker -t rateway:latest .
     - if [ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ] && [ "$DOCKERHUB_USERNAME" != "" ] && [ "$DOCKERHUB_PASSWORD" != "" ]; then
-      podman login docker.io --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD &&
-      podman push rateway:latest docker.io/$DOCKERHUB_USERNAME/rateway:latest;
-    fi
+        podman login docker.io --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD &&
+        podman push rateway:latest docker.io/$DOCKERHUB_USERNAME/rateway:latest;
+      fi
