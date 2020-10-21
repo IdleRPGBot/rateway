@@ -6,25 +6,20 @@ edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
-twilight-gateway = { version = "0.2.0-beta.0", default-features = false, features = [
+twilight-gateway = { git = "https://github.com/twilight-rs/twilight.git", branch = "trunk", default-features = false, features = [
     "rustls",
     "simd-json",
     "simd-zlib",
 ] }
-twilight-model = "0.2.0-beta.0"
-twilight-http = { version = "0.2.0-beta.0", default-features = false, features = [
+twilight-model = { git = "https://github.com/twilight-rs/twilight.git", branch = "trunk" }
+twilight-http = { git = "https://github.com/twilight-rs/twilight.git", branch = "trunk", default-features = false, features = [
     "rustls",
     "simd-json"
 ] }
-twilight-cache-inmemory = "0.2.0-beta.0"
+twilight-cache-inmemory = { git = "https://github.com/twilight-rs/twilight.git", branch = "trunk" }
 tokio-amqp = { version = "0.1", default-features = false }
 lapin = { version = "1.4", default-features = false }
-tokio = { version = "0.2", features = [
-    "macros",
-    "rt-core",
-    "rt-threaded",
-    "stream"
-] }
+tokio = { version = "0.2", features = ["macros", "rt-threaded", "stream"] }
 serde = { version = "1", features = ["derive", "rc"] }
 structopt = { version = "0.3", default-features = false }
 toml = "0.5"
@@ -32,7 +27,7 @@ simd-json = { default-features = false, features = [
     "serde_impl",
     "swar-number-parsing"
 ], version = "0.3" }
-env_logger = "0.7"
+env_logger = "0.8"
 log = "0.4"
 
 [profile.release]
