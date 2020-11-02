@@ -26,9 +26,9 @@ dependencies = [
 
 [[package]]
 name = "amq-protocol"
-version = "6.0.0-rc12"
+version = "6.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3a582e9acd2b9c950e0199f362b50adc2dd50df19b80b6ff21e6f665f9ffec1a"
+checksum = "3a5080602e3ebcc5acd0faff43e831e7582272f9283d30a45c1a56e64420dafb"
 dependencies = [
  "amq-protocol-tcp",
  "amq-protocol-types",
@@ -39,20 +39,20 @@ dependencies = [
 
 [[package]]
 name = "amq-protocol-tcp"
-version = "6.0.0-rc12"
+version = "6.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "08a78f63c0f5687fad9e568308a0e47dbf67284169989720041a1776da2a2a54"
+checksum = "e154689184febca57476e180e21fbba9cae8f87f06ebdd5bbacba309d961e1a6"
 dependencies = [
  "amq-protocol-uri",
- "log",
  "tcp-stream",
+ "tracing",
 ]
 
 [[package]]
 name = "amq-protocol-types"
-version = "6.0.0-rc12"
+version = "6.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "79ba245d2b7aff08d8d282e599b464d39374562558978441ba79dbf2c4144c1f"
+checksum = "7b4e9282a2a89e72b35b50b473ea9860fd4ca0438882e0b58564e87d0cf54abb"
 dependencies = [
  "cookie-factory",
  "nom",
@@ -62,9 +62,9 @@ dependencies = [
 
 [[package]]
 name = "amq-protocol-uri"
-version = "6.0.0-rc12"
+version = "6.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3d04a3088d68efdc84895ccf27af671d553807a713c1f33f0e2ee35c19ddc593"
+checksum = "5bc186b87ed06f9794fb195446e06e67281d29db0f66d6cda0be1281763f33ba"
 dependencies = [
  "percent-encoding",
  "url",
@@ -126,6 +126,18 @@ name = "bitflags"
 version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cf1de2fe8c75bc145a2f577add951f8134889b4795d47466a54a5c846d691693"
+
+[[package]]
+name = "bitvec"
+version = "0.19.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a7ba35e9565969edb811639dbebfe34edc0368e472c5018474c8eb2543397f81"
+dependencies = [
+ "funty",
+ "radium",
+ "tap",
+ "wyz",
+]
 
 [[package]]
 name = "block-buffer"
@@ -304,11 +316,11 @@ checksum = "134951f4028bdadb9b84baf4232681efbf277da25144b9b0ad65df75946c422b"
 
 [[package]]
 name = "encoding_rs"
-version = "0.8.24"
+version = "0.8.25"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a51b8cf747471cb9499b6d59e59b0444f4c90eba8968c4e44874e92b5b64ace2"
+checksum = "f62bc5e388624f1a13da83b479275dbec9663a876e414df80decf7d2cdab6670"
 dependencies = [
- "cfg-if 0.1.10",
+ "cfg-if 1.0.0",
 ]
 
 [[package]]
@@ -367,6 +379,12 @@ name = "fuchsia-zircon-sys"
 version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3dcaa9ae7725d12cdb85b3ad99a434db70b468c09ded17e012d86b5c1010f7a7"
+
+[[package]]
+name = "funty"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0ba62103ce691c2fd80fbae2213dfdda9ce60804973ac6b6e97de818ea7f52c8"
 
 [[package]]
 name = "futures-channel"
@@ -690,16 +708,16 @@ dependencies = [
 
 [[package]]
 name = "lapin"
-version = "1.4.3"
+version = "1.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0501ef9cdcf693b673d8f2ae91e9d91b66390e6e467886ff5faddcb07f349949"
+checksum = "549ae1dd23261582bae51d7bc12161be435da2768e77eec709dd5676185397d6"
 dependencies = [
  "amq-protocol",
  "async-task",
  "crossbeam-channel",
  "futures-core",
  "log",
- "mio 0.7.4",
+ "mio 0.7.5",
  "parking_lot",
  "pinky-swear",
 ]
@@ -768,9 +786,9 @@ checksum = "7ffc5c5338469d4d3ea17d269fa8ea3512ad247247c30bd2df69e68309ed0a08"
 
 [[package]]
 name = "memchr"
-version = "2.3.3"
+version = "2.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3728d817d99e5ac407411fa471ff9800a778d88a24685968b36824eaf4bee400"
+checksum = "0ee1c47aaa256ecabcaea351eae4a9b01ef39ed810004e298d2511ed284b1525"
 
 [[package]]
 name = "mime"
@@ -819,9 +837,9 @@ dependencies = [
 
 [[package]]
 name = "mio"
-version = "0.7.4"
+version = "0.7.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f8f1c83949125de4a582aa2da15ae6324d91cf6a58a70ea407643941ff98f558"
+checksum = "8962c171f57fcfffa53f4df1bb15ec4c8cf26a7569459c9ceb62d94aab0d9584"
 dependencies = [
  "libc",
  "log",
@@ -876,10 +894,11 @@ dependencies = [
 
 [[package]]
 name = "nom"
-version = "6.0.0-alpha1"
+version = "6.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "25020779544bf717b917323b42f23c9dbef1bd2b97b576df6484a0c8709705c6"
+checksum = "4489ccc7d668957ddf64af7cd027c081728903afa6479d35da7e99bf5728f75f"
 dependencies = [
+ "bitvec",
  "lexical-core",
  "memchr",
  "version_check",
@@ -896,9 +915,9 @@ dependencies = [
 
 [[package]]
 name = "num-traits"
-version = "0.2.12"
+version = "0.2.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ac267bcc07f48ee5f8935ab0d24f316fb722d7a1292e2913f0cc196b29ffd611"
+checksum = "9a64b1ec5cda2586e284722486d802acf1f7dbdc623e2bfc57e65ca1cd099290"
 dependencies = [
  "autocfg",
 ]
@@ -1067,9 +1086,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro-hack"
-version = "0.5.18"
+version = "0.5.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "99c605b9a0adc77b7211c6b1f722dcb613d68d66859a44f3d485a6da332b0598"
+checksum = "dbf0c48bc1d91375ae5c3cd81e3722dff1abcf81a30960240640d223f59fe0e5"
 
 [[package]]
 name = "proc-macro-nested"
@@ -1094,6 +1113,12 @@ checksum = "aa563d17ecb180e500da1cfd2b028310ac758de548efdd203e18f283af693f37"
 dependencies = [
  "proc-macro2",
 ]
+
+[[package]]
+name = "radium"
+version = "0.5.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "941ba9d78d8e2f7ce474c015eea4d9c6d25b6a3327f9832ee29a4de27f91bbb8"
 
 [[package]]
 name = "rand"
@@ -1163,9 +1188,9 @@ checksum = "41cc0f7e4d5d4544e8861606a285bb08d3e70712ccc7d2b84d7c0ccfaf4b05ce"
 
 [[package]]
 name = "regex"
-version = "1.4.1"
+version = "1.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8963b85b8ce3074fecffde43b4b0dded83ce2f367dc8d363afc56679f3ee820b"
+checksum = "38cf2c13ed4745de91a5eb834e11c00bcc3709e773173b2ce4c56c9fbde04b9c"
 dependencies = [
  "aho-corasick",
  "memchr",
@@ -1175,9 +1200,9 @@ dependencies = [
 
 [[package]]
 name = "regex-syntax"
-version = "0.6.20"
+version = "0.6.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8cab7a364d15cde1e505267766a2d3c4e22a843e1a601f0fa7564c0f82ced11c"
+checksum = "3b181ba2dcf07aaccad5448e8ead58db5b742cf85dfe035e2227f137a539a189"
 
 [[package]]
 name = "reqwest"
@@ -1435,13 +1460,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "tap"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "36474e732d1affd3a6ed582781b3683df3d0563714c59c39591e8ff707cf078e"
+
+[[package]]
 name = "tcp-stream"
 version = "0.20.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f34bbc13eef7fd9522e3f08538480f7762d6dd72b111f62b2bc8b185a5d982bd"
 dependencies = [
  "cfg-if 1.0.0",
- "mio 0.7.4",
+ "mio 0.7.5",
 ]
 
 [[package]]
@@ -1630,8 +1661,8 @@ dependencies = [
 
 [[package]]
 name = "twilight-cache-inmemory"
-version = "0.2.0-beta.2"
-source = "git+https://github.com/twilight-rs/twilight.git?branch=trunk#ed5e93aa7b14019cf745ded19405f962f3b7f2a0"
+version = "0.2.0"
+source = "git+https://github.com/twilight-rs/twilight.git?branch=trunk#d190d7f4db22e0f2c988e43504fa709c33b04b3b"
 dependencies = [
  "bitflags",
  "dashmap",
@@ -1642,8 +1673,8 @@ dependencies = [
 
 [[package]]
 name = "twilight-gateway"
-version = "0.2.0-beta.1"
-source = "git+https://github.com/twilight-rs/twilight.git?branch=trunk#ed5e93aa7b14019cf745ded19405f962f3b7f2a0"
+version = "0.2.0"
+source = "git+https://github.com/twilight-rs/twilight.git?branch=trunk#d190d7f4db22e0f2c988e43504fa709c33b04b3b"
 dependencies = [
  "async-tungstenite",
  "bitflags",
@@ -1665,8 +1696,8 @@ dependencies = [
 
 [[package]]
 name = "twilight-gateway-queue"
-version = "0.1.0"
-source = "git+https://github.com/twilight-rs/twilight.git?branch=trunk#ed5e93aa7b14019cf745ded19405f962f3b7f2a0"
+version = "0.2.0"
+source = "git+https://github.com/twilight-rs/twilight.git?branch=trunk#d190d7f4db22e0f2c988e43504fa709c33b04b3b"
 dependencies = [
  "futures-channel",
  "futures-util",
@@ -1677,8 +1708,8 @@ dependencies = [
 
 [[package]]
 name = "twilight-http"
-version = "0.2.0-beta.2"
-source = "git+https://github.com/twilight-rs/twilight.git?branch=trunk#ed5e93aa7b14019cf745ded19405f962f3b7f2a0"
+version = "0.2.0"
+source = "git+https://github.com/twilight-rs/twilight.git?branch=trunk#d190d7f4db22e0f2c988e43504fa709c33b04b3b"
 dependencies = [
  "bytes",
  "futures-channel",
@@ -1697,8 +1728,8 @@ dependencies = [
 
 [[package]]
 name = "twilight-model"
-version = "0.2.0-beta.2"
-source = "git+https://github.com/twilight-rs/twilight.git?branch=trunk#ed5e93aa7b14019cf745ded19405f962f3b7f2a0"
+version = "0.2.0"
+source = "git+https://github.com/twilight-rs/twilight.git?branch=trunk#d190d7f4db22e0f2c988e43504fa709c33b04b3b"
 dependencies = [
  "bitflags",
  "serde",
@@ -1989,3 +2020,9 @@ dependencies = [
  "winapi 0.2.8",
  "winapi-build",
 ]
+
+[[package]]
+name = "wyz"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "85e60b0d1b5f99db2556934e21937020776a5d31520bf169e851ac44e6420214"
