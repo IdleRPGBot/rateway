@@ -30,6 +30,7 @@ pub struct WorkerConfig<'a> {
     pub scheme: ShardScheme,
     pub cluster_id: usize,
     pub amqp_uri: String,
+    pub cache_enabled: bool,
 }
 
 impl WorkerConfig<'_> {
@@ -51,6 +52,7 @@ impl WorkerConfig<'_> {
             cluster,
             cache: self.cache,
             cluster_id: self.cluster_id,
+            cache_enabled: self.cache_enabled,
         })
     }
 }
@@ -60,6 +62,7 @@ pub struct Worker {
     cluster: Cluster,
     cache: InMemoryCache,
     cluster_id: usize,
+    cache_enabled: bool,
 }
 
 impl Worker {
@@ -140,7 +143,9 @@ impl Worker {
         ));
 
         while let Some((_, event)) = events.next().await {
-            self.cache.update(&event);
+            if self.cache_enabled {
+                self.cache.update(&event);
+            }
             if let Ok(dispatch_evt) = DispatchEvent::try_from(event) {
                 // We can assume Some since this is a Dispatch event
                 let kind = dispatch_evt.kind().name().unwrap();

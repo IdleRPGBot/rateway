@@ -37,12 +37,15 @@ Configuration is preferably done in enviroment variables, alternatively, a confi
 
 `EXTRA_SHARDS` (optional, defaults to 8): Extra shards to spawn for reserve
 
+`CACHE_ENABLED` (optional, defaults to true): Toggle caching in rateway
+
 ### Configuration File
 
 ```toml
 token = "token"
 intents = 19553
 amqp = "amqp://guest:guest@localhost"
+cache_enabled = true
 
 [shards]
 per_cluster = 8

@@ -7,6 +7,7 @@ pub struct Config {
     pub token: String,
     pub amqp: String,
     pub intents: u64,
+    pub cache_enabled: bool,
     pub shards: ConfigShards,
 }
 
@@ -37,10 +38,15 @@ pub fn load_env() -> Config {
         .parse()
         .expect("Cannot parse extra shards");
     let amqp = std::env::var("AMQP_URI").expect("AMQP_URI not set");
+    let cache_enabled: bool = std::env::var("CACHE_ENABLED")
+        .unwrap_or_else(|_| String::from("true"))
+        .parse()
+        .expect("Cannot parse cache enabled");
     Config {
         token,
         amqp,
         intents,
+        cache_enabled,
         shards: ConfigShards { per_cluster, extra },
     }
 }

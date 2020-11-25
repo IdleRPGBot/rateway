@@ -18,7 +18,7 @@ twilight-http = { version = "0.2", default-features = false, features = [
 ] }
 twilight-cache-inmemory = "0.2"
 tokio-amqp = { version = "0.1", default-features = false }
-lapin = { version = "1.4", default-features = false }
+lapin = { version = "1.6", default-features = false }
 tokio = { version = "0.2", features = ["macros", "rt-threaded", "stream"] }
 serde = { version = "1", features = ["derive", "rc"] }
 structopt = { version = "0.3", default-features = false }
@@ -31,4 +31,4 @@ env_logger = "0.8"
 log = "0.4"
 
 [profile.release]
-lto = true
+lto = "thin"

@@ -88,6 +88,7 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
         let new_client = client.clone();
         let new_token = config.token.clone();
         let new_amqp_uri = config.amqp.clone();
+        let cache_enabled = config.cache_enabled;
         let scheme = ShardScheme::try_from((shard_start..=shard_end, total_shards))?;
 
         let worker_config = worker::WorkerConfig {
@@ -99,6 +100,7 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
             queue: new_queue,
             scheme,
             token: &new_token,
+            cache_enabled,
         };
 
         let worker = worker_config.build().await?;
