@@ -1,4 +1,5 @@
 use crate::model::{CacheEntity, CacheRequest};
+use futures_util::StreamExt;
 use lapin::{
     options::{BasicAckOptions, BasicPublishOptions},
     types::AMQPValue,
@@ -7,7 +8,6 @@ use lapin::{
 use log::error;
 use serde::Serialize;
 use simd_json::{from_slice, to_vec};
-use tokio::stream::StreamExt;
 use twilight_cache_inmemory::InMemoryCache;
 use twilight_gateway::Cluster;
 

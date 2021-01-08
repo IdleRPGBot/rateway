@@ -5,6 +5,7 @@ use twilight_gateway::queue::Queue;
 use twilight_http::Client;
 use twilight_model::gateway::{event::DispatchEvent, Intents};
 
+use futures_util::StreamExt;
 use lapin::{
     options::{
         BasicConsumeOptions, BasicPublishOptions, ExchangeDeclareOptions, QueueBindOptions,
@@ -14,7 +15,7 @@ use lapin::{
     BasicProperties, Channel, Connection, ConnectionProperties, ExchangeKind,
 };
 use simd_json::to_vec;
-use tokio::{spawn, stream::StreamExt};
+use tokio::spawn;
 use tokio_amqp::LapinTokioExt;
 
 use std::convert::TryFrom;
