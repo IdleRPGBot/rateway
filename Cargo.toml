@@ -32,4 +32,4 @@ env_logger = "0.8"
 log = "0.4"
 
 [profile.release]
-lto = "thin"
+lto = true
