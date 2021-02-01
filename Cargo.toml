@@ -28,7 +28,7 @@ simd-json = { default-features = false, features = [
     "serde_impl",
     "swar-number-parsing"
 ], version = "0.3" }
-env_logger = "0.8"
+env_logger = { version = "0.8", default-features = false, features = ["termcolor", "atty", "humantime"] }
 log = "0.4"
 
 [profile.release]
