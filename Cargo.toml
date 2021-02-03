@@ -30,5 +30,8 @@ simd-json = { default-features = false, features = [
 env_logger = { version = "0.8", default-features = false, features = ["termcolor", "atty", "humantime"] }
 log = "0.4"
 
+[patch.crates-io]
+lexical-core = { git = "https://github.com/Gelbpunkt/rust-lexical" }
+
 [profile.release]
 lto = true
