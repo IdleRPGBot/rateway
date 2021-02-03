@@ -1,6 +1,6 @@
 FROM docker.io/library/alpine:edge AS builder
 
-RUN apk add --no-cache curl clang gcc musl-dev lld cmake make && \
+RUN apk add --no-cache curl clang gcc musl-dev lld make && \
     curl -sSf https://sh.rustup.rs | sh -s -- --profile minimal --default-toolchain nightly -y
 
 ENV CC clang

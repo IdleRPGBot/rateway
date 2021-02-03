@@ -1,7 +1,9 @@
 use crate::reader::amqp_reader;
 use twilight_cache_inmemory::InMemoryCache;
-use twilight_gateway::cluster::{Cluster, ShardScheme};
-use twilight_gateway::queue::Queue;
+use twilight_gateway::{
+    cluster::{Cluster, ShardScheme},
+    queue::Queue,
+};
 use twilight_http::Client;
 use twilight_model::gateway::{event::DispatchEvent, Intents};
 
@@ -18,9 +20,7 @@ use simd_json::to_vec;
 use tokio::spawn;
 use tokio_amqp::LapinTokioExt;
 
-use std::convert::TryFrom;
-use std::error::Error;
-use std::sync::Arc;
+use std::{convert::TryFrom, error::Error, sync::Arc};
 
 pub struct WorkerConfig<'a> {
     pub token: &'a str,

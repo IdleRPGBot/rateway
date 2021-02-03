@@ -9,7 +9,7 @@ use log::error;
 use serde::Serialize;
 use simd_json::{from_slice, to_vec};
 use twilight_cache_inmemory::InMemoryCache;
-use twilight_gateway::Cluster;
+use twilight_gateway::{shard::raw_message::Message, Cluster};
 
 fn serialize_item<T: Serialize>(item: T) -> Option<Vec<u8>> {
     to_vec(&item).ok()
@@ -101,7 +101,10 @@ pub async fn amqp_reader(
                             AMQPValue::ShortUInt(val) => *val as u64,
                             _ => continue,
                         };
-                        if let Err(e) = cluster.command_raw(actual_id, delivery.data).await {
+                        if let Err(e) = cluster
+                            .send(actual_id, Message::Binary(delivery.data))
+                            .await
+                        {
                             error!("Error sending gateway command: {}", e);
                         };
                     }

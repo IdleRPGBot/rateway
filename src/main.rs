@@ -1,6 +1,8 @@
 use twilight_cache_inmemory::InMemoryCacheBuilder;
-use twilight_gateway::cluster::ShardScheme;
-use twilight_gateway::queue::{LargeBotQueue, Queue};
+use twilight_gateway::{
+    cluster::ShardScheme,
+    queue::{LargeBotQueue, Queue},
+};
 use twilight_http::Client;
 use twilight_model::gateway::Intents;
 
@@ -8,11 +10,14 @@ use log::info;
 use structopt::StructOpt;
 use tokio::task::{spawn, JoinHandle};
 
-use std::convert::{TryFrom, TryInto};
-use std::iter::Iterator;
-use std::path::PathBuf;
-use std::sync::Arc;
-use std::{env, error::Error};
+use std::{
+    convert::{TryFrom, TryInto},
+    env,
+    error::Error,
+    iter::Iterator,
+    path::PathBuf,
+    sync::Arc,
+};
 
 mod config;
 mod model;
