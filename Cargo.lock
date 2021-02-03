@@ -637,7 +637,7 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 [[package]]
 name = "lexical-core"
 version = "0.7.4"
-source = "git+https://github.com/Gelbpunkt/rust-lexical#d84a969d69505c44c0cceaf221da2a45d2962b02"
+source = "git+https://github.com/Gelbpunkt/rust-lexical#eca91dc23e79736c9eb23c0e2f978909dc547e44"
 dependencies = [
  "arrayvec",
  "bitflags",
