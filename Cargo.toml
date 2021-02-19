@@ -6,16 +6,16 @@ edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
-twilight-gateway = { git = "https://github.com/Erk-/twilight", branch = "feature/optionel-compression", default-features = false, features = [
-    "rustls",
+twilight-gateway = { git = "https://github.com/Gelbpunkt/twilight", branch = "webpki-roots-hyper-tls-rollback", default-features = false, features = [
+    "rustls-webpki-roots",
     "simd-json",
 ] }
-twilight-model = { git = "https://github.com/Erk-/twilight", branch = "feature/optionel-compression" }
-twilight-http = { git = "https://github.com/Erk-/twilight", branch = "feature/optionel-compression", default-features = false, features = [
-    "rustls",
+twilight-model = { git = "https://github.com/Gelbpunkt/twilight", branch = "webpki-roots-hyper-tls-rollback" }
+twilight-http = { git = "https://github.com/Gelbpunkt/twilight", branch = "webpki-roots-hyper-tls-rollback", default-features = false, features = [
+    "rustls-webpki-roots",
     "simd-json"
 ] }
-twilight-cache-inmemory = { git = "https://github.com/Erk-/twilight", branch = "feature/optionel-compression" }
+twilight-cache-inmemory = { git = "https://github.com/Gelbpunkt/twilight", branch = "webpki-roots-hyper-tls-rollback" }
 tokio-amqp = { version = "1.0", default-features = false }
 lapin = { version = "1.6", default-features = false }
 tokio = { version = "1.0", default-features = false, features = ["macros", "rt-multi-thread"] }
@@ -30,8 +30,9 @@ simd-json = { default-features = false, features = [
 env_logger = { version = "0.8", default-features = false, features = ["termcolor", "atty", "humantime"] }
 log = "0.4"
 
-[patch.crates-io]
-lexical-core = { git = "https://github.com/Gelbpunkt/rust-lexical" }
-
 [profile.release]
+codegen-units = 1
+debug = false
+incremental = false
 lto = true
+opt-level = 3

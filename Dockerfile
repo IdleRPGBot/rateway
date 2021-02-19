@@ -32,13 +32,22 @@ RUN source $HOME/.cargo/env && \
     cargo build --release && \
     strip /build/target/release/rateway
 
-FROM docker.io/library/alpine:edge
+FROM docker.io/library/alpine:edge AS dumb-init
+ARG FINAL_TARGET
 
-RUN adduser -S rateway
+RUN apk update && \
+    VERSION=$(apk search dumb-init) && \
+    mkdir out && \
+    cd out && \
+    echo "Downloading from https://dl-cdn.alpinelinux.org/alpine/edge/community/x86_64/$VERSION.apk" && \
+    wget "https://dl-cdn.alpinelinux.org/alpine/edge/community/x86_64/$VERSION.apk" -O dumb-init.apk && \
+    tar xf dumb-init.apk && \
+    mv usr/bin/dumb-init /dumb-init
 
-USER rateway
-WORKDIR /rateway
+FROM scratch
 
-COPY --from=builder /build/target/release/rateway /rateway/run
+COPY --from=dumb-init /dumb-init /dumb-init
+COPY --from=builder /build/target/release/rateway /rateway
 
-CMD /rateway/run
+ENTRYPOINT ["./dumb-init", "--"]
+CMD ["./rateway"]
