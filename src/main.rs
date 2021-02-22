@@ -22,7 +22,6 @@ mod model;
 mod reader;
 mod worker;
 
-
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
     env::set_var("RUST_LOG", "info");
