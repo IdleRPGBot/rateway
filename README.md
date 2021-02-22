@@ -23,7 +23,7 @@ Please check [the user guide](USER_GUIDE.md) on specifics how to implement a cli
 
 ## Configuration
 
-Configuration is preferably done in enviroment variables, alternatively, a config file can be passed with `-c /path/to/rateway.toml`.
+Configuration is preferably done in enviroment variables, alternatively, a config file can be passed with `rateway /path/to/rateway.toml`.
 
 ### Enviroment Variables
 

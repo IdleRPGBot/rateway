@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use std::{fs, path::PathBuf};
+use std::fs;
 use toml::from_str;
 
 #[derive(Debug, Deserialize)]
@@ -17,7 +17,7 @@ pub struct ConfigShards {
     pub extra: u64,
 }
 
-pub fn load_config(p: PathBuf) -> Config {
+pub fn load_config(p: String) -> Config {
     let file = fs::read_to_string(p).unwrap();
     let config: Config = from_str(&file).unwrap();
     config

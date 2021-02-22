@@ -33,7 +33,6 @@ RUN source $HOME/.cargo/env && \
     strip /build/target/release/rateway
 
 FROM docker.io/library/alpine:edge AS dumb-init
-ARG FINAL_TARGET
 
 RUN apk update && \
     VERSION=$(apk search dumb-init) && \

@@ -7,7 +7,6 @@ use twilight_http::Client;
 use twilight_model::gateway::Intents;
 
 use log::info;
-use structopt::StructOpt;
 use tokio::task::{spawn, JoinHandle};
 
 use std::{
@@ -15,7 +14,6 @@ use std::{
     env,
     error::Error,
     iter::Iterator,
-    path::PathBuf,
     sync::Arc,
 };
 
@@ -24,12 +22,6 @@ mod model;
 mod reader;
 mod worker;
 
-#[derive(StructOpt, Debug)]
-#[structopt(name = "rateway", about = "A stateful gateway for Discord Bots")]
-struct Opt {
-    #[structopt(short = "c", long = "config")]
-    path_to_config_file: Option<PathBuf>,
-}
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
@@ -37,8 +29,8 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
     env_logger::init();
 
     // Try to read config file from CLI, else use env
-    let opt = Opt::from_args();
-    let config = match opt.path_to_config_file {
+    let mut args = std::env::args();
+    let config = match args.nth(1) {
         Some(file) => config::load_config(file),
         None => config::load_env(),
     };
