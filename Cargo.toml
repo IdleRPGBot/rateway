@@ -22,10 +22,10 @@ tokio = { version = "1", default-features = false, features = ["macros", "rt-mul
 futures-util = "0.3"
 serde = { version = "1", features = ["derive", "rc"] }
 toml = "0.5"
-simd-json = { default-features = false, features = [
+simd-json = { git = "https://github.com/Gelbpunkt/simd-json.git", default-features = false, features = [
     "serde_impl",
     "swar-number-parsing"
-], version = "0.4" }
+] }
 env_logger = { version = "0.8", default-features = false, features = ["termcolor", "atty", "humantime"] }
 log = "0.4"
 

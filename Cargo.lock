@@ -872,7 +872,7 @@ dependencies = [
  "lapin",
  "log",
  "serde",
- "simd-json 0.4.1",
+ "simd-json 0.4.2-alpha.0",
  "tokio",
  "tokio-amqp",
  "toml",
@@ -1020,9 +1020,8 @@ dependencies = [
 
 [[package]]
 name = "simd-json"
-version = "0.4.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "14174821a1056b3e4e4c8005f02aacbe0a8e5379a58fe6031b530f7e1bc18283"
+version = "0.4.2-alpha.0"
+source = "git+https://github.com/Gelbpunkt/simd-json.git#ce7ef5e614363c9fca9e38ab954842d09e75263f"
 dependencies = [
  "halfbrown",
  "serde",
