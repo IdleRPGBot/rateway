@@ -18,14 +18,14 @@ twilight-http = { git = "https://github.com/twilight-rs/twilight", branch = "v0.
 twilight-cache-inmemory = { git = "https://github.com/twilight-rs/twilight", branch = "v0.4" }
 tokio-amqp = { version = "1.0", default-features = false }
 lapin = { version = "1.6", default-features = false }
-tokio = { version = "1.0", default-features = false, features = ["macros", "rt-multi-thread"] }
+tokio = { version = "1", default-features = false, features = ["macros", "rt-multi-thread"] }
 futures-util = "0.3"
 serde = { version = "1", features = ["derive", "rc"] }
 toml = "0.5"
 simd-json = { default-features = false, features = [
     "serde_impl",
     "swar-number-parsing"
-], version = "0.3" }
+], version = "0.4" }
 env_logger = { version = "0.8", default-features = false, features = ["termcolor", "atty", "humantime"] }
 log = "0.4"
 
