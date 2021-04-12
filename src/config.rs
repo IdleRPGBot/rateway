@@ -8,6 +8,7 @@ pub struct Config {
     pub amqp: String,
     pub intents: u64,
     pub cache_enabled: bool,
+    pub message_cache_size: usize,
     pub shards: ConfigShards,
 }
 
@@ -42,11 +43,16 @@ pub fn load_env() -> Config {
         .unwrap_or_else(|_| String::from("true"))
         .parse()
         .expect("Cannot parse cache enabled");
+    let message_cache_size: usize = std::env::var("MESSAGE_CACHE_SIZE")
+        .unwrap_or_else(|_| String::from("0"))
+        .parse()
+        .expect("Cannot parse message cache size");
     Config {
         token,
         amqp,
         intents,
         cache_enabled,
+        message_cache_size,
         shards: ConfigShards { per_cluster, extra },
     }
 }

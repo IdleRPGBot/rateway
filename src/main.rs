@@ -45,7 +45,9 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
         .expect("Cannot fetch shard information");
 
     // Set up a cache
-    let cache = InMemoryCacheBuilder::new().message_cache_size(0).build();
+    let cache = InMemoryCacheBuilder::new()
+        .message_cache_size(config.message_cache_size)
+        .build();
 
     let total_shards = gateway.shards + config.shards.extra;
 
