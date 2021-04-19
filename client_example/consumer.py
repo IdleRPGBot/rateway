@@ -12,7 +12,7 @@ LIST_OF_EVENTS_WE_WANT_TO_GET = ["MESSAGE_CREATE", "REACTION_ADD"]
 
 async def main():
     # Connect to the AMQP server. Change this to your username and password
-    connection = await aio_pika.connect_robust("amqp://broker:secret@127.0.0.1/")
+    connection = await aio_pika.connect_robust("amqp://guest:guest@127.0.0.1/")
 
     # This will close the connection when leaving the context manager
     async with connection:
