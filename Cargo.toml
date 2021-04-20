@@ -19,7 +19,7 @@ twilight-cache-inmemory = { git = "https://github.com/Gelbpunkt/twilight", branc
 tokio-amqp = { version = "1.0", default-features = false }
 lapin = { version = "1.7", default-features = false }
 tokio = { version = "1", default-features = false, features = ["macros", "rt-multi-thread"] }
-futures-util = "0.3"
+futures-util = { version = "0.3", default-features = false }
 serde = { version = "1", features = ["derive", "rc"] }
 toml = "0.5"
 simd-json = { version = "0.4", default-features = false, features = [
@@ -28,6 +28,9 @@ simd-json = { version = "0.4", default-features = false, features = [
 ] }
 env_logger = { version = "0.8", default-features = false, features = ["termcolor", "atty", "humantime"] }
 log = "0.4"
+
+[patch.crates-io]
+hyper-rustls = { git = "https://github.com/ctz/hyper-rustls" }
 
 [profile.release]
 codegen-units = 1
